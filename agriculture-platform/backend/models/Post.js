@@ -1,0 +1,1 @@
+import mongoose from 'mongoose'; const schema=new mongoose.Schema({author:{type:mongoose.Schema.Types.ObjectId,ref:'User',required:true},title:{type:String,required:true},content:{type:String,required:true},topic:{type:String,enum:['disease','experience','question','tip'],default:'question'},image:String},{timestamps:true}); export default mongoose.model('Post',schema);

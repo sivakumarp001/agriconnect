@@ -1,0 +1,11 @@
+import React, { useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import marketplaceLogo from '../assets/integrated-farmer-market-place-logo.jpg';
+import './Layout.css';
+
+export default function Layout({ children }) {
+  const { user, logout } = useAuth(); const navigate = useNavigate(); const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = () => setMenuOpen(false); const leave = () => { logout(); closeMenu(); navigate('/'); };
+  return <><nav className="navbar navbar-expand-lg navbar-dark agro-nav"><div className="container"><Link className="navbar-brand agri-brand" to="/" onClick={closeMenu}><img className="agri-brand-logo" src={marketplaceLogo} alt="Integrated Farmer Market Place" /></Link><button className="navbar-toggler" type="button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}><span className="navbar-toggler-icon" /></button><div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`}><div className="navbar-nav ms-auto">{user ? <>{user.role === 'admin' && <NavLink className="nav-link" to="/admin" onClick={closeMenu}>Admin</NavLink>}<NavLink className="nav-link" to="/dashboard" onClick={closeMenu}>Dashboard</NavLink><span className="nav-link d-none d-lg-inline text-white-50">Hi, {user.name}</span><button className="btn btn-sm btn-light ms-lg-2" onClick={leave}>Log out</button></> : <><NavLink className="nav-link" to="/login" onClick={closeMenu}>Sign in</NavLink><NavLink className="btn btn-sm btn-warning ms-lg-2" to="/register" onClick={closeMenu}>Get started</NavLink></>}</div></div></div></nav>{children}<footer>© 2026 Integrated Farmer Market Place</footer></>;
+}
