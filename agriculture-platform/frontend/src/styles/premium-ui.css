@@ -22,14 +22,28 @@
    ======================================================== */
 body {
   background-color: #f7fbf7;
-  background-image: 
-    linear-gradient(135deg, rgba(247, 251, 247, 0.52) 0%, rgba(244, 240, 230, 0.60) 100%),
-    url('../assets/farm-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
   font-family: 'Inter', system-ui, sans-serif;
   color: var(--ink);
+  position: relative;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background-image: url('../assets/farm-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+  transform: scale(1.05);
+  z-index: -1;
+  pointer-events: none;
 }
 
 h1,
@@ -183,15 +197,12 @@ h1,
 .sidebar,
 .stat,
 .card {
-  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid var(--line) !important;
   box-shadow: 
-    0 10px 28px rgba(18, 55, 34, 0.08), 
-    0 2px 8px rgba(0, 0, 0, 0.04), 
-    inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+    0 8px 24px rgba(18, 55, 34, 0.08), 
+    0 2px 6px rgba(0, 0, 0, 0.04) !important;
   border-radius: var(--radius) !important;
-  background: rgba(255, 255, 255, 0.93) !important;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: #ffffff !important;
 }
 
 .feature {

@@ -119,9 +119,7 @@
 .auth-form-card {
   width: 440px;
   max-width: 100%;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.85);
   border-radius: 20px;
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.25);
