@@ -5,9 +5,9 @@ import { useAuth } from '../context/AuthContext';
 import './SimpleAuth.css';
 
 const roles = [
-  { value: 'farmer', label: 'Farmer', icon: 'Farmer' },
-  { value: 'buyer', label: 'Buyer', icon: 'Buyer' },
-  { value: 'rentalOwner', label: 'Equipment', icon: 'Owner' },
+  { value: 'farmer', label: 'Farmer', icon: '🌾', desc: 'Sell produce & rent' },
+  { value: 'buyer', label: 'Buyer', icon: '🛒', desc: 'Purchase fresh crops' },
+  { value: 'rentalOwner', label: 'Equipment Owner', icon: '🚜', desc: 'Rent out machinery' },
 ];
 
 export default function SimpleAuth({ mode }) {
@@ -15,19 +15,163 @@ export default function SimpleAuth({ mode }) {
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', role: 'farmer' });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const registering = mode === 'register';
+
   const set = (field) => (event) => setForm({ ...form, [field]: event.target.value });
+
   const submit = async (event) => {
     event.preventDefault();
     setError('');
+    setLoading(true);
     try {
       const response = await api.post(`/auth/${mode}`, form);
       login(response.data);
       navigate(response.data.user.role === 'buyer' ? '/products' : '/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Unable to continue.');
+      setError(err.response?.data?.message || 'Unable to authenticate. Please check your credentials.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  return <main className="auth-page"><section className="auth-visual"><Link className="auth-logo" to="/"><span>AgroConnect</span></Link><div className="auth-visual-copy"><h1>{registering ? 'Cultivating Digital Growth.' : 'Growing better, together.'}</h1><p>{registering ? 'Join a trusted platform connecting farmers, buyers, and equipment owners across the agricultural supply chain.' : 'Sign in to manage your farm business, purchases, rentals, and community.'}</p></div></section><section className="auth-form-area"><div className="auth-form-card"><div className="auth-heading"><h2>{registering ? 'Create your account' : 'Welcome back'}</h2><p>{registering ? 'Select how you want to use the platform to get started.' : 'Enter your details to continue to AgroConnect.'}</p></div>{error && <div className="alert alert-danger py-2">{error}</div>}<form onSubmit={submit}>{registering && <><label className="form-label">I am joining as a...</label><div className="role-options">{roles.map((role) => <button type="button" key={role.value} className={form.role === role.value ? 'selected' : ''} onClick={() => setForm({ ...form, role: role.value })}><span>{role.icon}</span>{role.label}</button>)}</div><hr /><label className="form-label">Full name</label><input className="form-control mb-3" required placeholder="Jane Doe" value={form.name} onChange={set('name')} /><label className="form-label">Phone number</label><input className="form-control mb-3" type="tel" required placeholder="9876543210" value={form.phone} onChange={set('phone')} /></>}<label className="form-label">Email address</label><input className="form-control mb-3" type="email" required placeholder="name@example.com" value={form.email} onChange={set('email')} /><label className="form-label">Password</label><input className="form-control mb-2" type="password" required placeholder="Enter your password" value={form.password} onChange={set('password')} />{registering && <p className="auth-help">Your number is shared only with the other party in a product order or rental request.</p>}<button className="auth-submit" type="submit">{registering ? 'Create account' : 'Sign in'} <span>→</span></button></form><p className="auth-switch">{registering ? <>Already have an account? <Link to="/login">Sign in</Link></> : <>New to AgroConnect? <Link to="/register">Create an account</Link></>}</p></div></section></main>;
+  return (
+    <main className="auth-page">
+      {/* 1. Left Side: Yellow Logo + "Login" + 2-line statement */}
+      <section className="auth-left-section">
+        <div className="auth-logo-wrap">
+          <Link className="auth-logo" to="/">
+            <span className="auth-logo-yellow">Agro</span><span className="auth-logo-white">Connect</span>
+          </Link>
+        </div>
+
+        <div className="auth-left-copy">
+          <h1 className="auth-left-title">{registering ? 'Register' : 'Login'}</h1>
+          <p className="auth-left-statement">
+            {registering
+              ? 'Join Tamil Nadu\'s trusted agricultural network to trade produce, rent verified machinery, and collaborate with farmers.'
+              : 'Access your personalized agricultural dashboard to manage farm crops, track customer orders, and rent equipment.'}
+          </p>
+        </div>
+
+        <div className="auth-left-spacer" />
+      </section>
+
+      {/* 2. Right Side: Centered Auth Form Card */}
+      <section className="auth-form-area">
+        <div className="auth-form-card">
+          <div className="auth-heading">
+            <h2>{registering ? 'Create your account' : 'Welcome back'}</h2>
+            <p>
+              {registering
+                ? 'Select how you want to join and enter your details.'
+                : 'Enter your email and password to access your dashboard.'}
+            </p>
+          </div>
+
+          {error && (
+            <div className="alert alert-danger py-2 mb-3" style={{ fontSize: 13, borderRadius: 10 }}>
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={submit} className="auth-form-body">
+            {registering && (
+              <>
+                <div className="mb-3">
+                  <label className="auth-form-label">I am joining as a...</label>
+                  <div className="role-options">
+                    {roles.map((role) => (
+                      <button
+                        type="button"
+                        key={role.value}
+                        className={`role-option-btn ${form.role === role.value ? 'selected' : ''}`}
+                        onClick={() => setForm({ ...form, role: role.value })}
+                      >
+                        <span className="role-btn-icon">{role.icon}</span>
+                        <b className="role-btn-label">{role.label}</b>
+                        <small className="role-btn-sub">{role.desc}</small>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mb-3">
+                  <label className="auth-form-label">Full name</label>
+                  <input
+                    className="auth-input-control"
+                    required
+                    placeholder="e.g. Kumar Selvam"
+                    value={form.name}
+                    onChange={set('name')}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label className="auth-form-label">Phone number</label>
+                  <input
+                    className="auth-input-control"
+                    type="tel"
+                    required
+                    placeholder="10-digit mobile number"
+                    value={form.phone}
+                    onChange={set('phone')}
+                  />
+                </div>
+              </>
+            )}
+
+            <div className="mb-3">
+              <label className="auth-form-label">Email address</label>
+              <input
+                className="auth-input-control"
+                type="email"
+                required
+                placeholder="name@example.com"
+                value={form.email}
+                onChange={set('email')}
+              />
+            </div>
+
+            <div className="mb-4">
+              <div className="d-flex justify-content-between align-items-center mb-1">
+                <label className="auth-form-label mb-0">Password</label>
+              </div>
+              <input
+                className="auth-input-control"
+                type="password"
+                required
+                placeholder="Enter your password"
+                value={form.password}
+                onChange={set('password')}
+              />
+            </div>
+
+            {registering && (
+              <p className="auth-help-note">
+                Your phone number is shared only with the other verified party in orders or rental requests.
+              </p>
+            )}
+
+            <button className="auth-submit-btn" type="submit" disabled={loading}>
+              <span>{loading ? 'Processing...' : registering ? 'Create Account' : 'Sign In'}</span>
+              <span style={{ fontSize: 16 }}>→</span>
+            </button>
+          </form>
+
+          <div className="auth-switch-text">
+            {registering ? (
+              <span>
+                Already have an account? <Link to="/login">Sign in</Link>
+              </span>
+            ) : (
+              <span>
+                New to AgriConnect? <Link to="/register">Create an account</Link>
+              </span>
+            )}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 }
