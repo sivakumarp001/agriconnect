@@ -1,2 +1,420 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
-:root{--agro-900:#123d2a;--agro-800:#155a38;--agro-700:#1d7545;--agro-600:#278a51;--agro-100:#e9f5ec;--earth-100:#f4f0e6;--ink:#1c3025;--muted:#6d7d73;--line:#dce8de;--shadow:0 12px 30px rgba(23,79,46,.09);--radius:16px}body{background:linear-gradient(135deg,#f7fbf7,#f4f0e6);font-family:'DM Sans',system-ui,sans-serif;color:var(--ink)}h1,h2,h3,h4,h5{letter-spacing:-.025em}h1,.hero h1{font-family:'Playfair Display',Georgia,serif}.agro-nav{position:sticky;top:0;z-index:1030;background:rgba(18,61,42,.96);backdrop-filter:blur(14px);box-shadow:0 3px 15px rgba(12,48,31,.18);padding:9px 0}.navbar-brand{font-size:1.25rem;letter-spacing:-.03em}.navbar-brand:before{content:'🌱';margin-right:8px}.navbar-nav{align-items:center;gap:3px}.navbar-nav .nav-link{padding:8px 12px!important;color:#e7f6ea!important;border-radius:9px;font-weight:600;font-size:.92rem}.navbar-nav .nav-link:hover,.navbar-nav .nav-link.active{background:rgba(255,255,255,.14);color:#fff!important}.btn{border-radius:10px;font-weight:700;transition:transform .18s ease,box-shadow .18s ease}.btn:hover{transform:translateY(-1px);box-shadow:0 8px 16px rgba(20,89,52,.16)}.btn-success{background:var(--agro-700);border-color:var(--agro-700)}.btn-success:hover{background:var(--agro-800);border-color:var(--agro-800)}.btn-outline-success{color:var(--agro-700);border-color:#8fcaa0}.btn-warning{background:#eab949;border-color:#eab949;color:#352600}.hero{min-height:520px;display:flex;align-items:center;position:relative;background:linear-gradient(108deg,rgba(9,52,32,.94) 0%,rgba(15,83,47,.87) 48%,rgba(28,104,62,.74) 100%),url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1600&q=80') center/cover}.hero h1{font-size:clamp(2.7rem,5.5vw,4.8rem);max-width:800px;line-height:1.05;text-shadow:0 2px 14px rgba(0,0,0,.14)}.hero .badge{padding:8px 12px;border-radius:20px;background:#25965a!important;color:#fff!important}.hero p{color:#eff9f0;text-shadow:0 1px 8px rgba(0,0,0,.18)}.hero .btn-warning{background:#f2bd45;border-color:#f2bd45}.hero .btn-outline-light{border-color:rgba(255,255,255,.78);color:#fff}.hero .btn-outline-light:hover{background:#fff;color:var(--agro-900)}.feature,.auth-card,.sidebar,.stat,.card{border:1px solid var(--line)!important;box-shadow:var(--shadow)!important;border-radius:var(--radius)!important;background:#fff}.feature{height:100%;transition:transform .2s ease,box-shadow .2s ease}.feature:hover,.card:hover{transform:translateY(-4px);box-shadow:0 18px 34px rgba(23,79,46,.13)!important}.feature>div{background:var(--agro-100);border-radius:12px;width:55px;height:55px;display:grid;place-items:center}.auth-card{max-width:470px;padding:34px!important;margin:25px auto!important}.auth-card h1{font-family:'Playfair Display',Georgia,serif}.form-control,.form-select{border:1px solid #cfddd1;border-radius:10px;padding:11px 13px;color:var(--ink)}.form-control:focus,.form-select:focus{border-color:var(--agro-600);box-shadow:0 0 0 .2rem rgba(39,138,81,.15)}.form-label{font-size:.88rem;font-weight:700}.cover,.placeholder-img{border-radius:var(--radius) var(--radius) 0 0}.placeholder-img{background:linear-gradient(135deg,#e8f5e9,#d6ead9)}.card-body{padding:20px}.card h5,.card h4{font-weight:700}.text-success{color:var(--agro-700)!important}.alert{border:0;border-radius:12px;box-shadow:0 5px 14px rgba(40,60,45,.07)}.table{--bs-table-bg:transparent;--bs-table-hover-bg:#f1f8f2;border-color:var(--line)}.table thead th{color:var(--agro-800);font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;border-bottom-width:1px}.table td,.table th{vertical-align:middle;padding:14px 10px}.sidebar{padding:12px!important}.sidebar h5{color:var(--agro-800);font-weight:800;padding:8px}.sidebar button{border-radius:9px!important;font-weight:600;color:#577060}.sidebar button.active,.sidebar button:hover{background:var(--agro-100)!important;color:var(--agro-800)!important}.stat{border-left:4px solid var(--agro-600)!important}.stat b{color:var(--agro-800)!important}.status-pill{box-shadow:none}.farm-panel{box-shadow:var(--shadow)!important}.community-post{padding:16px 0!important}.community-post b{color:var(--agro-800)}.qty{border:1px solid var(--line);border-radius:7px;padding:5px}.navbar-toggler{border-color:rgba(255,255,255,.4)}footer{margin-top:0!important;background:#103b28!important;padding:28px!important;color:#d9efdf!important}@media(max-width:767px){.hero{min-height:420px}.hero h1{font-size:2.65rem}.auth-card{padding:24px!important;margin:12px auto!important}.navbar-nav{align-items:stretch;padding-top:10px}.navbar-nav .btn{margin:5px 0}.table-responsive{border-radius:12px;border:1px solid var(--line)}}
+
+/* ========================================================
+   1. GLOBAL DESIGN TOKENS & ROOTS
+   ======================================================== */
+:root {
+  --agro-900: #123d2a;
+  --agro-800: #155a38;
+  --agro-700: #1d7545;
+  --agro-600: #278a51;
+  --agro-100: #e9f5ec;
+  --earth-100: #f4f0e6;
+  --ink: #1c3025;
+  --muted: #6d7d73;
+  --line: #dce8de;
+  --shadow: 0 12px 30px rgba(23, 79, 46, 0.09);
+  --radius: 16px;
+}
+
+/* ========================================================
+   2. BODY & GLOBAL TYPOGRAPHY
+   ======================================================== */
+body {
+  background-color: #f7fbf7;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--ink);
+  position: relative;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background-image: url('../assets/farm-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+  transform: scale(1.05);
+  z-index: -1;
+  pointer-events: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  letter-spacing: -0.025em;
+}
+
+h1,
+.hero h1 {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+}
+
+/* ========================================================
+   3. NAVIGATION BAR (Agro Nav)
+   ======================================================== */
+.agro-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: rgba(34, 88, 62, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 3px 15px rgba(12, 48, 31, 0.12);
+  padding: 9px 0;
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+}
+
+.navbar-brand:before {
+  content: '🌱';
+  margin-right: 8px;
+}
+
+.navbar-nav {
+  align-items: center;
+  gap: 3px;
+}
+
+.navbar-nav .nav-link {
+  padding: 8px 12px !important;
+  color: #e7f6ea !important;
+  border-radius: 9px;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff !important;
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ========================================================
+   4. BUTTONS & ACTIONS
+   ======================================================== */
+.btn {
+  border-radius: 10px;
+  font-weight: 700;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(20, 89, 52, 0.16);
+}
+
+.btn-success {
+  background: var(--agro-700);
+  border-color: var(--agro-700);
+}
+
+.btn-success:hover {
+  background: var(--agro-800);
+  border-color: var(--agro-800);
+}
+
+.btn-outline-success {
+  color: var(--agro-700);
+  border-color: #8fcaa0;
+}
+
+.btn-warning {
+  background: #eab949;
+  border-color: #eab949;
+  color: #352600;
+}
+
+/* ========================================================
+   5. HERO SECTION
+   ======================================================== */
+.hero {
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: 
+    linear-gradient(108deg, rgba(9, 52, 32, 0.92) 0%, rgba(15, 83, 47, 0.82) 48%, rgba(28, 104, 62, 0.70) 100%),
+    url('../assets/farm-bg.jpg') center/cover no-repeat;
+}
+
+.hero h1 {
+  font-size: clamp(2.7rem, 5.5vw, 4.8rem);
+  max-width: 800px;
+  line-height: 1.05;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.14);
+}
+
+.hero .badge {
+  padding: 8px 12px;
+  border-radius: 20px;
+  background: #25965a !important;
+  color: #fff !important;
+}
+
+.hero p {
+  color: #eff9f0;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.18);
+}
+
+.hero .btn-warning {
+  background: #f2bd45;
+  border-color: #f2bd45;
+}
+
+.hero .btn-outline-light {
+  border-color: rgba(255, 255, 255, 0.78);
+  color: #fff;
+}
+
+.hero .btn-outline-light:hover {
+  background: #fff;
+  color: var(--agro-900);
+}
+
+/* ========================================================
+   6. BRIGHT LUMINOUS CARDS & CONTAINERS
+   ======================================================== */
+.feature,
+.auth-card,
+.sidebar,
+.stat,
+.card {
+  border: 1px solid var(--line) !important;
+  box-shadow: 
+    0 8px 24px rgba(18, 55, 34, 0.08), 
+    0 2px 6px rgba(0, 0, 0, 0.04) !important;
+  border-radius: var(--radius) !important;
+  background: #ffffff !important;
+}
+
+.feature {
+  height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature:hover,
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 18px 36px rgba(23, 79, 46, 0.14),
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+  border-color: rgba(39, 138, 81, 0.35) !important;
+}
+
+.feature > div {
+  background: var(--agro-100);
+  border-radius: 12px;
+  width: 55px;
+  height: 55px;
+  display: grid;
+  place-items: center;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card h5,
+.card h4 {
+  font-weight: 700;
+  color: var(--agro-900);
+}
+
+.cover,
+.placeholder-img {
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.placeholder-img {
+  background: linear-gradient(135deg, #e8f5e9, #d6ead9);
+}
+
+.stat {
+  border-left: 4px solid var(--agro-600) !important;
+}
+
+.stat b {
+  color: var(--agro-800) !important;
+}
+
+.status-pill {
+  box-shadow: none;
+}
+
+.farm-panel {
+  box-shadow: var(--shadow) !important;
+}
+
+/* ========================================================
+   7. AUTH CARD
+   ======================================================== */
+.auth-card {
+  max-width: 470px;
+  padding: 34px !important;
+  margin: 25px auto !important;
+}
+
+.auth-card h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* ========================================================
+   8. FORMS & INPUTS
+   ======================================================== */
+.form-control,
+.form-select {
+  border: 1px solid #cfddd1;
+  border-radius: 10px;
+  padding: 11px 13px;
+  color: var(--ink);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--agro-600);
+  box-shadow: 0 0 0 0.2rem rgba(39, 138, 81, 0.15);
+  background-color: #ffffff;
+}
+
+.form-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.qty {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 5px;
+}
+
+/* ========================================================
+   9. TABLES & ALERTS
+   ======================================================== */
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-hover-bg: #f1f8f2;
+  border-color: var(--line);
+}
+
+.table thead th {
+  color: var(--agro-800);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-bottom-width: 1px;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+  padding: 14px 10px;
+}
+
+.text-success {
+  color: var(--agro-700) !important;
+}
+
+.alert {
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 5px 14px rgba(40, 60, 45, 0.07);
+}
+
+/* ========================================================
+   10. SIDEBAR & COMMUNITY
+   ======================================================== */
+.sidebar {
+  padding: 12px !important;
+}
+
+.sidebar h5 {
+  color: var(--agro-800);
+  font-weight: 800;
+  padding: 8px;
+}
+
+.sidebar button {
+  border-radius: 9px !important;
+  font-weight: 600;
+  color: #577060;
+}
+
+.sidebar button.active {
+  background: var(--agro-100) !important;
+  color: var(--agro-800) !important;
+}
+
+.sidebar button:hover {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--ink) !important;
+}
+
+.community-post {
+  padding: 16px 0 !important;
+}
+
+.community-post b {
+  color: var(--agro-800);
+}
+
+/* ========================================================
+   11. FOOTER
+   ======================================================== */
+footer {
+  margin-top: 0 !important;
+  background: #103b28 !important;
+  padding: 28px !important;
+  color: #d9efdf !important;
+}
+
+/* ========================================================
+   12. RESPONSIVE BREAKPOINTS
+   ======================================================== */
+@media (max-width: 767px) {
+  .hero {
+    min-height: 420px;
+  }
+
+  .hero h1 {
+    font-size: 2.65rem;
+  }
+
+  .auth-card {
+    padding: 24px !important;
+    margin: 12px auto !important;
+  }
+
+  .navbar-nav {
+    align-items: stretch;
+    padding-top: 10px;
+  }
+
+  .navbar-nav .btn {
+    margin: 5px 0;
+  }
+
+  .table-responsive {
+    border-radius: 12px;
+    border: 1px solid var(--line);
+  }
+}
