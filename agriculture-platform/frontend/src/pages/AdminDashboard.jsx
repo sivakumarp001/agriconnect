@@ -252,10 +252,10 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   {(doctorLocationFilter || doctorSearchFilter) && (
-                    <div className="d-flex justify-content-center mt-2 pt-2 border-top">
+                    <div className="d-flex justify-content-end align-items-center mt-2 pt-2 border-top">
                       <button
                         type="button"
-                        className="btn btn-sm btn-outline-secondary px-3"
+                        className="btn btn-sm btn-outline-secondary px-3 py-1"
                         onClick={() => {
                           setDoctorLocationFilter('');
                           setDoctorSearchFilter('');

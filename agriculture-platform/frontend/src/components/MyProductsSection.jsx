@@ -22,7 +22,8 @@ import {
   ClipboardIcon,
   TractorIcon,
   UsersIcon,
-  FarmerBannerIllustration
+  FarmerBannerIllustration,
+  FertilizerIcon
 } from './FarmerIcons';
 
 const CATEGORIES = [
@@ -715,6 +716,19 @@ export default function MyProductsSection({
                 <div className="action-btn-left">
                   <UsersIcon size={16} />
                   <span>Find Collaboration</span>
+                </div>
+                <ChevronRightIcon size={16} />
+              </button>
+
+              <button
+                type="button"
+                className="quick-action-item-btn"
+                style={{ background: '#f0fdf4', borderColor: '#86efac' }}
+                onClick={() => onNavigateSection && onNavigateSection('fertilizers')}
+              >
+                <div className="action-btn-left">
+                  <FertilizerIcon size={16} />
+                  <span style={{ fontWeight: 700, color: '#166534' }}>Fertilizer Prices</span>
                 </div>
                 <ChevronRightIcon size={16} />
               </button>

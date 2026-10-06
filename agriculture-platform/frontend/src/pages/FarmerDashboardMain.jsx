@@ -16,8 +16,10 @@ import {
   CalendarIcon,
   StethoscopeIcon,
   UsersIcon,
-  SidebarHillsIllustration
+  SidebarHillsIllustration,
+  FertilizerIcon
 } from '../components/FarmerIcons';
+import FertilizerPricePage from './FertilizerPricePage';
 import './DetailPages.css';
 import './FarmerProductsDashboard.css';
 
@@ -50,6 +52,7 @@ export default function FarmerDashboardMain({ initialSection }) {
   const [section, setSection] = useState(() => {
     if (initialSection) return initialSection;
     if (typeof window !== 'undefined' && window.location.pathname === '/community') return 'collaboration';
+    if (typeof window !== 'undefined' && window.location.pathname === '/fertilizers') return 'fertilizers';
     const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
     return params?.get('tab') || 'products';
   });
@@ -183,7 +186,8 @@ export default function FarmerDashboardMain({ initialSection }) {
     orders: 'Customer Orders',
     equipment: 'Rent Equipment',
     rentals: 'Rental Status',
-    doctors: 'Agricultural Doctors'
+    doctors: 'Agricultural Doctors',
+    fertilizers: 'Fertilizer Prices'
   }[section];
 
   const NAV_ITEMS = [
@@ -192,7 +196,8 @@ export default function FarmerDashboardMain({ initialSection }) {
     { key: 'equipment', label: 'Rent Equipment', icon: TractorIcon },
     { key: 'rentals', label: 'Rental Status', icon: CalendarIcon },
     { key: 'doctors', label: 'Agri Doctors', icon: StethoscopeIcon },
-    { key: 'collaboration', label: 'Farmer Collaboration', icon: UsersIcon }
+    { key: 'collaboration', label: 'Farmer Collaboration', icon: UsersIcon },
+    { key: 'fertilizers', label: 'Fertilizer Prices', icon: FertilizerIcon }
   ];
 
   return (
@@ -373,6 +378,10 @@ export default function FarmerDashboardMain({ initialSection }) {
             <ErrorBoundary>
               <FarmerCollaborationSection onNavigateSection={setSection} />
             </ErrorBoundary>
+          ) : section === 'fertilizers' ? (
+            <ErrorBoundary>
+              <FertilizerPricePage />
+            </ErrorBoundary>
           ) : (
             <>
               <header className="farmer-content-header-row mb-4">
@@ -437,7 +446,7 @@ export default function FarmerDashboardMain({ initialSection }) {
             {/* Location Filter Bar */}
             <div className="dashboard-filter-box">
               <div className="row g-3">
-                <div className="col-md-6">
+                <div className="col-md-4 col-sm-5">
                   <label className="filter-subheading">📍 District</label>
                   <select
                     className="form-select form-select-sm"
@@ -452,7 +461,7 @@ export default function FarmerDashboardMain({ initialSection }) {
                     ))}
                   </select>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-8 col-sm-7">
                   <label className="filter-subheading">🔍 Search Machinery</label>
                   <input
                     className="form-control form-control-sm"
@@ -464,10 +473,10 @@ export default function FarmerDashboardMain({ initialSection }) {
               </div>
 
               {(equipmentLocation || equipmentSearch) && (
-                <div className="d-flex justify-content-center mt-3 pt-2 border-top">
+                <div className="d-flex justify-content-end align-items-center mt-3 pt-2 border-top">
                   <button
                     type="button"
-                    className="btn btn-sm btn-outline-secondary px-4"
+                    className="btn btn-sm btn-outline-secondary px-3 py-1 btn-clear-filter"
                     onClick={() => {
                       setEquipmentLocation('');
                       setEquipmentSearch('');
@@ -507,13 +516,15 @@ export default function FarmerDashboardMain({ initialSection }) {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-5 border rounded bg-light">
-                <p className="text-muted mb-2">
+              <div className="dashboard-empty-state">
+                <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>🚜</div>
+                <p className="text-muted mb-2 fw-medium" style={{ fontSize: '14px' }}>
                   No machinery found {equipmentLocation ? `in ${equipmentLocation}` : ''}.
                 </p>
                 {(equipmentLocation || equipmentSearch) && (
                   <button
-                    className="btn btn-sm btn-outline-success"
+                    type="button"
+                    className="btn btn-sm btn-outline-success px-3 mt-1"
                     onClick={() => {
                       setEquipmentLocation('');
                       setEquipmentSearch('');
@@ -564,7 +575,7 @@ export default function FarmerDashboardMain({ initialSection }) {
             {/* Location Filter Bar for Doctors */}
             <div className="dashboard-filter-box">
               <div className="row g-3">
-                <div className="col-md-6">
+                <div className="col-md-4 col-sm-5">
                   <label className="filter-subheading">📍 Filter by District</label>
                   <select
                     className="form-select form-select-sm"
@@ -579,7 +590,7 @@ export default function FarmerDashboardMain({ initialSection }) {
                     ))}
                   </select>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-8 col-sm-7">
                   <label className="filter-subheading">🔍 Search Doctor Name / Town</label>
                   <input
                     className="form-control form-control-sm"
@@ -591,10 +602,10 @@ export default function FarmerDashboardMain({ initialSection }) {
               </div>
 
               {(doctorLocation || doctorSearch) && (
-                <div className="d-flex justify-content-center mt-3 pt-2 border-top">
+                <div className="d-flex justify-content-end align-items-center mt-3 pt-2 border-top">
                   <button
                     type="button"
-                    className="btn btn-sm btn-outline-secondary px-4"
+                    className="btn btn-sm btn-outline-secondary px-3 py-1 btn-clear-filter"
                     onClick={() => {
                       setDoctorLocation('');
                       setDoctorSearch('');
@@ -643,13 +654,15 @@ export default function FarmerDashboardMain({ initialSection }) {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-5 border rounded bg-light">
-                <p className="text-muted mb-2">
+              <div className="dashboard-empty-state">
+                <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>👨‍⚕️</div>
+                <p className="text-muted mb-2 fw-medium" style={{ fontSize: '14px' }}>
                   No agricultural doctors found {doctorLocation ? `in ${doctorLocation}` : ''}.
                 </p>
                 {(doctorLocation || doctorSearch) && (
                   <button
-                    className="btn btn-sm btn-outline-success"
+                    type="button"
+                    className="btn btn-sm btn-outline-success px-3 mt-1"
                     onClick={() => {
                       setDoctorLocation('');
                       setDoctorSearch('');

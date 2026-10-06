@@ -296,4 +296,30 @@ export const FarmerBannerIllustration = () => (
   </svg>
 );
 
+export const FertilizerIcon = ({ size = 20, className = '' }) => (
+  <svg {...iconProps} width={size} height={size} className={className} viewBox="0 0 24 24">
+    <path d="M6 3h12l2 5v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8l2-5Z" />
+    <path d="M6 8h12" />
+    <path d="m10 13 2 2 4-4" />
+  </svg>
+);
+
+export const SpeakerIcon = ({ size = 20, className = '' }) => (
+  <svg {...iconProps} width={size} height={size} className={className} viewBox="0 0 24 24">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+  </svg>
+);
+
+export const RefreshCwIcon = ({ size = 18, className = '' }) => (
+  <svg {...iconProps} width={size} height={size} className={className} viewBox="0 0 24 24">
+    <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+    <path d="M21 3v5h-5" />
+    <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+    <path d="M3 21v-5h5" />
+  </svg>
+);
+
+
 

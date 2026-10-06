@@ -15,6 +15,7 @@ import BuyerMarketplace from './pages/BuyerMarketplace';
 import FarmerCommunity from './pages/FarmerCommunity';
 import AdminDashboard from './pages/AdminDashboard';
 import BuyerOrders from './pages/BuyerOrders';
+import FertilizerPricePage from './pages/FertilizerPricePage';
 
 function DashboardPage() {
   const { user } = useAuth();
@@ -24,6 +25,22 @@ function DashboardPage() {
   return (
     <ErrorBoundary>
       <FarmerDashboardMain />
+    </ErrorBoundary>
+  );
+}
+
+function FertilizerRoute() {
+  const { user } = useAuth();
+  if (user?.role === 'farmer') {
+    return (
+      <ErrorBoundary>
+        <FarmerDashboardMain initialSection="fertilizers" />
+      </ErrorBoundary>
+    );
+  }
+  return (
+    <ErrorBoundary>
+      <FertilizerPricePage />
     </ErrorBoundary>
   );
 }
@@ -44,6 +61,7 @@ export default function App() {
             <Route path="/equipment" element={<EquipmentRental />} />
             <Route path="/equipment/:id" element={<EquipmentDetailPage />} />
             <Route path="/community" element={<FarmerCommunity />} />
+            <Route path="/fertilizers" element={<FertilizerRoute />} />
             <Route path="/cart" element={<Protected roles={['buyer']}><Cart /></Protected>} />
             <Route path="/admin" element={<Protected roles={['admin']}><AdminDashboard /></Protected>} />
             <Route path="/dashboard" element={<Protected><DashboardPage /></Protected>} />
@@ -54,4 +72,3 @@ export default function App() {
     </BrowserRouter>
   );
 }
-

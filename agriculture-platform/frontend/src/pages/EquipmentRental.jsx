@@ -135,12 +135,12 @@ export default function EquipmentRental() {
             </div>
           </div>
 
-          {/* Centered Clear Button */}
+          {/* Right-aligned Clear Button */}
           {(location || search) && (
-            <div className="d-flex justify-content-center mt-3 pt-3 border-top">
+            <div className="d-flex justify-content-end align-items-center mt-3 pt-2 border-top">
               <button
                 type="button"
-                className="btn btn-outline-secondary px-4"
+                className="btn btn-sm btn-outline-secondary px-3 py-1"
                 onClick={clearFilters}
               >
                 ✕ Clear Filters

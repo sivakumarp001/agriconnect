@@ -33,6 +33,7 @@ export default function Layout({ children }) {
           </button>
           <div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`}>
             <div className="navbar-nav ms-auto">
+              <NavLink className="nav-link" to="/fertilizers" onClick={closeMenu}>Fertilizer Prices</NavLink>
               {user ? (
                 <>
                   {user.role === 'admin' && <NavLink className="nav-link" to="/admin" onClick={closeMenu}>Admin</NavLink>}
