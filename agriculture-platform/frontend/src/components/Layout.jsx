@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import marketplaceLogo from '../assets/integrated-farmer-market-place-logo.jpg';
 import './Layout.css';
 
 export default function Layout({ children }) {
@@ -25,8 +24,8 @@ export default function Layout({ children }) {
     <>
       <nav className="navbar navbar-expand-lg navbar-dark agro-nav">
         <div className="container">
-          <Link className="navbar-brand agri-brand" to="/" onClick={closeMenu}>
-            <img className="agri-brand-logo" src={marketplaceLogo} alt="Integrated Farmer Market Place" />
+          <Link className="navbar-brand auth-logo" to="/" onClick={closeMenu}>
+            <span className="auth-logo-yellow">Agri</span><span className="auth-logo-white">Connect</span>
           </Link>
           <button className="navbar-toggler" type="button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
             <span className="navbar-toggler-icon" />
@@ -53,7 +52,7 @@ export default function Layout({ children }) {
         </div>
       </nav>
       {children}
-      <footer>© 2026 Integrated Farmer Market Place</footer>
+      <footer>© 2026 AgriConnect — Integrated Agriculture Platform</footer>
     </>
   );
 }

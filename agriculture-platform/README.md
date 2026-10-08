@@ -1,4 +1,4 @@
-# AgroConnect — Integrated Digital Agriculture Platform
+# AgriConnect — Integrated Digital Agriculture Platform
 
 A MERN final-year project that brings direct agricultural commerce, machinery rental, farmer collaboration, and administrative oversight into one responsive application.
 

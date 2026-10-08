@@ -218,7 +218,9 @@ export default function FarmerDashboardMain({ initialSection }) {
           <span className="sidebar-brand-icon">
             <LeafIcon size={22} />
           </span>
-          <span className="sidebar-brand-title">AgriConnect</span>
+          <span className="sidebar-brand-title">
+            <span className="auth-logo-yellow">Agri</span><span className="auth-logo-white">Connect</span>
+          </span>
         </div>
 
         <div className="sidebar-user-header">

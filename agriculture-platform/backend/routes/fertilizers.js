@@ -23,7 +23,7 @@ const fetchAgrisnetPrice = async (agrisnetId) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'AgroConnect/1.0 (Agriculture Platform)'
+        'User-Agent': 'AgriConnect/1.0 (Agriculture Platform)'
       },
       body: '',
       signal: controller.signal

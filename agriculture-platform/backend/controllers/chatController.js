@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const SYSTEM_PROMPT = `
-You are "AgriBot", the intelligent, friendly, and expert agricultural AI assistant embedded within AgroConnect (Integrated Digital Agriculture Platform).
+You are "AgriBot", the intelligent, friendly, and expert agricultural AI assistant embedded within AgriConnect (Integrated Digital Agriculture Platform).
 Your mission is to empower farmers, agricultural produce buyers, and equipment rental owners with practical advice, website guidance, and technical farming know-how.
 
 Key Platform Knowledge:
@@ -49,7 +49,7 @@ const getLocalSmartResponse = (query, isTa) => {
     if (isTa) {
       return `🏛️ **அரசு விவசாய நலத்திட்டங்கள் & மானியங்கள்:**\n\n1. **சொட்டு நீர் பாசன மானியம் (PMKSY):** சிறு & குறு விவசாயிகளுக்கு **100% முழு மானியம்**, இதர விவசாயிகளுக்கு **75% மானியம்**.\n2. **PM-KISAN:** ஆண்டுக்கு **₹6,000** நேரடி வங்கி பண உதவி (3 தவணைகளில் ₹2,000).\n3. **விவசாய இயந்திரங்கள் (SMAM):** டிராக்டர், பவர் டில்லர் வாங்க **40% முதல் 50% வரை மானியம்**.\n4. **பயிர் காப்பீடு (PMFBY):** குறைந்த பிரீமியத்தில் (1.5% - 2%) இயற்கை பேரிடர் பயிர் இழப்பிற்கு இழப்பீடு.\n\n👉 மேல் மெனுவில் உள்ள **'Govt Schemes'** பக்கத்திற்கு சென்று ஆவணங்களை சரிபார்த்து உடனே விண்ணப்பிக்கலாம்!`;
     }
-    return `🏛️ **Key Government Agricultural Schemes & Subsidies:**\n\n1. **Micro-Irrigation (PMKSY):** **100% Subsidy** for Small & Marginal farmers (< 5 acres) and **75%** for others for Drip & Sprinkler setups.\n2. **PM-KISAN:** **₹6,000 / year** direct benefit transfer in 3 installments of ₹2,000.\n3. **Farm Machinery Subsidy (SMAM):** **40% to 50% subsidy** on purchasing Tractors, Power Tillers, and Rotavators.\n4. **Crop Insurance (PMFBY):** Nominal 1.5%–2% premium against flood and drought crop damages.\n\n👉 Visit the **'Govt Schemes'** page in AgroConnect to check your eligibility and document checklist!`;
+    return `🏛️ **Key Government Agricultural Schemes & Subsidies:**\n\n1. **Micro-Irrigation (PMKSY):** **100% Subsidy** for Small & Marginal farmers (< 5 acres) and **75%** for others for Drip & Sprinkler setups.\n2. **PM-KISAN:** **₹6,000 / year** direct benefit transfer in 3 installments of ₹2,000.\n3. **Farm Machinery Subsidy (SMAM):** **40% to 50% subsidy** on purchasing Tractors, Power Tillers, and Rotavators.\n4. **Crop Insurance (PMFBY):** Nominal 1.5%–2% premium against flood and drought crop damages.\n\n👉 Visit the **'Govt Schemes'** page in AgriConnect to check your eligibility and document checklist!`;
   }
 
   // Equipment & Machinery rental
@@ -57,7 +57,7 @@ const getLocalSmartResponse = (query, isTa) => {
     if (isTa) {
       return `🚜 **வேளாண் இயந்திரங்கள் வாடகைக்கு எடுக்க:**\n\n1. உங்கள் டாஷ்போர்டில் **'Rent Equipment'** அல்லது மேல் மெனுவில் **'Equipment'** கிளிக் செய்யவும்.\n2. உங்கள் மாவட்டம் (எ.கா. கோயம்புத்தூர், மதுரை, தஞ்சாவூர்) தேர்வு செய்து அருகிலுள்ள டிராக்டர்கள் மற்றும் பவர் டில்லர்களை காணலாம்.\n3. வாடகை காலம் மற்றும் நிலப்பரப்பை (Acres) உள்ளிட்டு **'View & Book'** கிளிக் செய்யவும்.\n4. இயந்திர உரிமையாளர் உங்கள் கோரிக்கையை உறுதி செய்வார்.`;
     }
-    return `🚜 **How to Rent Farm Equipment on AgroConnect:**\n\n1. Navigate to **'Equipment'** or select **'Rent Equipment'** from your Farmer Dashboard sidebar.\n2. Filter machinery by your district (e.g., Coimbatore, Thanjavur, Salem) to find nearby equipment.\n3. Browse Tractors, Harvesters, and Tillers with hourly rates.\n4. Click **'View & Book'**, specify your rental dates & farm acreage, and submit your request.`;
+    return `🚜 **How to Rent Farm Equipment on AgriConnect:**\n\n1. Navigate to **'Equipment'** or select **'Rent Equipment'** from your Farmer Dashboard sidebar.\n2. Filter machinery by your district (e.g., Coimbatore, Thanjavur, Salem) to find nearby equipment.\n3. Browse Tractors, Harvesters, and Tillers with hourly rates.\n4. Click **'View & Book'**, specify your rental dates & farm acreage, and submit your request.`;
   }
 
   // Selling produce / Marketplace
@@ -65,30 +65,30 @@ const getLocalSmartResponse = (query, isTa) => {
     if (isTa) {
       return `🌾 **உங்கள் பயிர்களை விற்க:**\n\n1. விவசாயி டாஷ்போர்டில் **'My Products'** பகுதிக்குச் செல்லவும்.\n2. **'Add New Product'** கிளிக் செய்து பயிர் பெயர், வகை, விலை (₹/கிலோ), இருப்பு மற்றும் புகைப்படத்தை பதிவேற்றவும்.\n3. உங்கள் பொருள் வாங்குபவர்கள் சந்தையில் (Marketplace) உடனடியாக தோன்றும்.\n4. வாங்குபவர்கள் ஆர்டர் செய்ததும் **'Orders'** தாவலில் ஏற்றுக்கொள்ளலாம்.`;
     }
-    return `🌾 **How to Sell Crops on AgroConnect:**\n\n1. Go to your **Farmer Dashboard** and click **'My Products'**.\n2. Click **'Add Product'** and enter the crop name, category, price per kg/quintal, available quantity, and upload a photo.\n3. Once submitted, buyers can discover your harvest in the **Marketplace**.\n4. When a buyer places an order, review and confirm it under your **'Orders'** section!`;
+    return `🌾 **How to Sell Crops on AgriConnect:**\n\n1. Go to your **Farmer Dashboard** and click **'My Products'**.\n2. Click **'Add Product'** and enter the crop name, category, price per kg/quintal, available quantity, and upload a photo.\n3. Once submitted, buyers can discover your harvest in the **Marketplace**.\n4. When a buyer places an order, review and confirm it under your **'Orders'** section!`;
   }
 
   // Fertilizer prices
   if (q.includes('fertilizer') || q.includes('urea') || q.includes('dap') || q.includes('potash') || q.includes('உரம்') || q.includes('யூரியா')) {
     if (isTa) {
-      return `🌱 **உரங்கள் மற்றும் விலை விவரங்கள்:**\n\n- அக்ரோகனெக்ட்டில் நேரடி **Agrisnet** விலைகளை அறியலாம்:\n  * **யூரியா (Urea 45kg):** அரசு மானிய விலை ₹266.50\n  * **டி.ஏ.பி (DAP 50kg):** ₹1,350\n  * **பொட்டாஷ் (MOP 50kg):** ₹1,650 - ₹1,700\n\n👉 மேல் மெனுவில் உள்ள **'Fertilizer Prices'** பகுதிக்குச் சென்று அனைத்து நிறுவன உரங்களின் அதிகபட்ச சில்லறை விலையை சரிபார்க்கவும்.`;
+      return `🌱 **உரங்கள் மற்றும் விலை விவரங்கள்:**\n\n- அக்ரிகனெக்ட்டில் நேரடி **Agrisnet** விலைகளை அறியலாம்:\n  * **யூரியா (Urea 45kg):** அரசு மானிய விலை ₹266.50\n  * **டி.ஏ.பி (DAP 50kg):** ₹1,350\n  * **பொட்டாஷ் (MOP 50kg):** ₹1,650 - ₹1,700\n\n👉 மேல் மெனுவில் உள்ள **'Fertilizer Prices'** பகுதிக்குச் சென்று அனைத்து நிறுவன உரங்களின் அதிகபட்ச சில்லறை விலையை சரிபார்க்கவும்.`;
     }
-    return `🌱 **Fertilizer Prices on AgroConnect:**\n\n- Track official Agrisnet retail price caps directly on AgroConnect:\n  * **Urea (45 kg):** Subsidized price ~₹266.50\n  * **DAP (50 kg):** ~₹1,350\n  * **MOP / Potash (50 kg):** ~₹1,650 – ₹1,700\n\n👉 Click **'Fertilizer Prices'** in the top navigation bar to search live prices across various manufacturers in English & Tamil.`;
+    return `🌱 **Fertilizer Prices on AgriConnect:**\n\n- Track official Agrisnet retail price caps directly on AgriConnect:\n  * **Urea (45 kg):** Subsidized price ~₹266.50\n  * **DAP (50 kg):** ~₹1,350\n  * **MOP / Potash (50 kg):** ~₹1,650 – ₹1,700\n\n👉 Click **'Fertilizer Prices'** in the top navigation bar to search live prices across various manufacturers in English & Tamil.`;
   }
 
   // Doctors
   if (q.includes('doctor') || q.includes('agri doctor') || q.includes('disease') || q.includes('pest') || q.includes('மருத்துவர்') || q.includes('பூச்சி')) {
     if (isTa) {
-      return `👨‍⚕️ **வேளாண் மருத்துவர் மற்றும் பயிர் பாதுகாப்பு:**\n\n1. உங்கள் டாஷ்போர்டில் **'Agri Doctors'** தாவலை கிளிக் செய்யவும்.\n2. உங்கள் மாவட்டத்தை தேர்வு செய்து, அருகிலுள்ள சான்றளிக்கப்பட்ட வேளாண் ஆலோசகர்களை காணலாம்.\n3. **📞 Call** அல்லது **💬 WhatsApp** பட்டன் மூலம் நேரடியாக பேசி பயிர் நோய் மற்றும் பூச்சி மேலாண்மை ஆலோசனைகளை பெறலாம்!`;
+      return `👨‍⚕️ **வேளாண் மருத்துவர் மற்றும் பயிர் பாதுகாப்பு:**\n\n1. உங்கள் டாஷ்போர்டில் **'Agri Doctors'** தாவலை கிளிக் செய்யவும்.\n2. உங்கள் மாவட்டத்தை தேர்வு செய்து, அருகிலுள்ள சான்றளிக்கப்பட்ட வேளாண் ஆலோசகர்களை காணலாம்.\n3. **📞 Call** அல்லது **💬 WhatsApp** பட்டன் மூலம் நேரடியாக பேசி பயிர் நோய் மற்றும் பூச்சி மேலாண்மை ஆலோசனைகளை பெறலாம்!\`;
     }
-    return `👨‍⚕️ **Consulting Agricultural Doctors on AgroConnect:**\n\n1. In your Farmer Dashboard, click on **'Agri Doctors'**.\n2. Filter by your district in Tamil Nadu to find certified agronomists and plant doctors.\n3. Use the one-click **'Call'** or **'WhatsApp'** buttons to share crop disease photos and get expert remedy prescriptions.`;
+    return `👨‍⚕️ **Consulting Agricultural Doctors on AgriConnect:**\n\n1. In your Farmer Dashboard, click on **'Agri Doctors'**.\n2. Filter by your district in Tamil Nadu to find certified agronomists and plant doctors.\n3. Use the one-click **'Call'** or **'WhatsApp'** buttons to share crop disease photos and get expert remedy prescriptions.`;
   }
 
   // Default welcome / general
   if (isTa) {
     return `வணக்கம்! நான் உங்கள் **AgriBot** வேளாண் AI உதவியாளர்.🌾\n\nநான் உங்களுக்கு பின்வரும் உதவிகளை செய்ய முடியும்:\n- 🏛️ அரசு மானியங்கள் மற்றும் நலத்திட்டங்கள் (சொட்டு நீர் பாசனம், PM-KISAN)\n- 🚜 டிராக்டர் மற்றும் வேளாண் கருவிகள் வாடகை\n- 🌾 விளைபொருட்களை சந்தையில் விற்பனை செய்தல்\n- 🌱 உரங்களின் நேரடி விலை நிலவரம்\n- 👨‍⚕️ வேளாண் மருத்துவர் தொடர்பு\n\nஉங்களுக்கு என்ன தகவல் வேண்டும் என்பதை தட்டச்சு செய்யவும்!`;
   }
-  return `Hello! I am **AgriBot**, your AgroConnect AI farming assistant. 🌾\n\nHere is how I can help you:\n- 🏛️ **Government Subsidies:** 100% drip irrigation, PM-KISAN, machinery subsidies\n- 🚜 **Machinery Rental:** Find & book tractors, tillers, and harvesters\n- 🌾 **Marketplace:** Listing crops, order processing, and buying farm produce\n- 🌱 **Fertilizer Tracker:** Real-time Agrisnet retail prices\n- 👨‍⚕️ **Agri Doctors:** Consult regional crop experts via Call/WhatsApp\n\nWhat would you like to know today?`;
+  return `Hello! I am **AgriBot**, your AgriConnect AI farming assistant. 🌾\n\nHere is how I can help you:\n- 🏛️ **Government Subsidies:** 100% drip irrigation, PM-KISAN, machinery subsidies\n- 🚜 **Machinery Rental:** Find & book tractors, tillers, and harvesters\n- 🌾 **Marketplace:** Listing crops, order processing, and buying farm produce\n- 🌱 **Fertilizer Tracker:** Real-time Agrisnet retail prices\n- 👨‍⚕️ **Agri Doctors:** Consult regional crop experts via Call/WhatsApp\n\nWhat would you like to know today?`;
 };
 
 /**

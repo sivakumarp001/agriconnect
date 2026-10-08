@@ -5,7 +5,7 @@ import './AgriChatbot.css';
 // Pre-defined quick suggestion prompt chips
 const QUICK_CHIPS_EN = [
   { label: '🌾 How to sell crops?', query: 'How do I list and sell my crops on the marketplace?' },
-  { label: '🚜 Rent a tractor?', query: 'How does equipment and machinery rental work on AgroConnect?' },
+  { label: '🚜 Rent a tractor?', query: 'How does equipment and machinery rental work on AgriConnect?' },
   { label: '🏛️ Govt Subsidies?', query: 'What agricultural government schemes and subsidies are available?' },
   { label: '💧 100% Drip Subsidy?', query: 'How to apply for 100% micro irrigation subsidy under PMKSY?' },
   { label: '🌱 Fertilizer Prices?', query: 'What are the current fertilizer prices for Urea and DAP?' },
@@ -42,7 +42,7 @@ export default function AgriChatbot() {
         text:
           language === 'ta'
             ? 'வணக்கம்! நான் உங்கள் **AgriBot** — வேளாண் AI உதவியாளர்.🌾\n\nஅரசு மானியங்கள், இயந்திர வாடகை, விளைபொருள் விற்பனை அல்லது உர விலைகள் குறித்து எதையும் கேளுங்கள்!'
-            : 'Hello! I am **AgriBot**, your AgroConnect AI farming assistant. 🌾\n\nAsk me about **Govt Subsidies**, **Equipment Rental**, **Marketplace Sales**, or **Fertilizer Prices**!',
+            : 'Hello! I am **AgriBot**, your AgriConnect AI farming assistant. 🌾\n\nAsk me about **Govt Subsidies**, **Equipment Rental**, **Marketplace Sales**, or **Fertilizer Prices**!',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ];
@@ -133,7 +133,7 @@ export default function AgriChatbot() {
         text:
           isTa
             ? 'வணக்கம்! நான் உங்கள் **AgriBot** — வேளாண் AI உதவியாளர்.🌾 எதைப்பற்றி அறிய விரும்புகிறீர்கள்?'
-            : 'Hello! I am **AgriBot**, your AgroConnect AI farming assistant. 🌾 How can I help you today?',
+            : 'Hello! I am **AgriBot**, your AgriConnect AI farming assistant. 🌾 How can I help you today?',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ];
@@ -313,10 +313,10 @@ export default function AgriChatbot() {
             {/* Introductory Card */}
             <div className="agribot-welcome-card">
               <span className="agribot-welcome-badge">
-                {isTa ? 'அக்ரோகனெக்ட் உதவி' : 'Smart Agriculture Assistant'}
+                {isTa ? 'அக்ரிகனெக்ட் உதவி' : 'Smart Agriculture Assistant'}
               </span>
               <h4 className="agribot-welcome-title">
-                {isTa ? 'வணக்கம் விவசாய நண்பரே! 🌾' : 'Welcome to AgroConnect! 🌾'}
+                {isTa ? 'வணக்கம் விவசாய நண்பரே! 🌾' : 'Welcome to AgriConnect! 🌾'}
               </h4>
               <p className="agribot-welcome-text">
                 {isTa
@@ -430,7 +430,7 @@ export default function AgriChatbot() {
               </button>
             </form>
             <div className="agribot-footer-note">
-              {isTa ? 'அக்ரோகனெக்ட் ஜெமினி AI ஆல் இயக்கப்படுகிறது' : 'Powered by AgroConnect Gemini AI'}
+              {isTa ? 'அக்ரிகனெக்ட் ஜெமினி AI ஆல் இயக்கப்படுகிறது' : 'Powered by AgriConnect Gemini AI'}
             </div>
           </div>
         </aside>

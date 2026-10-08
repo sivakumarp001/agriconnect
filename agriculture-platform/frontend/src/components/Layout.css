@@ -1,1 +1,28 @@
-.agri-brand{display:inline-flex!important;align-items:center;margin-right:1rem}.agri-brand:before{display:none!important}.agri-brand-logo{display:block;width:155px;height:54px;object-fit:contain;border-radius:7px;background:#fff}@media(max-width:576px){.agri-brand-logo{width:126px;height:46px}}
+.navbar-brand.auth-logo {
+  display: inline-flex !important;
+  align-items: center;
+  margin-right: 1.5rem;
+  text-decoration: none;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.navbar-brand.auth-logo:before {
+  display: none !important;
+  content: '' !important;
+}
+
+.auth-logo-yellow {
+  color: #FFB928;
+}
+
+.auth-logo-white {
+  color: #FFFFFF;
+}
+
+@media (max-width: 576px) {
+  .navbar-brand.auth-logo {
+    font-size: 22px;
+  }
+}

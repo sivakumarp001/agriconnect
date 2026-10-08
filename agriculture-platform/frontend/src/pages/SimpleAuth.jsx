@@ -41,7 +41,7 @@ export default function SimpleAuth({ mode }) {
       <section className="auth-left-section">
         <div className="auth-logo-wrap">
           <Link className="auth-logo" to="/">
-            <span className="auth-logo-yellow">Agro</span><span className="auth-logo-white">Connect</span>
+            <span className="auth-logo-yellow">Agri</span><span className="auth-logo-white">Connect</span>
           </Link>
         </div>
 
