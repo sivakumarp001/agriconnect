@@ -79,7 +79,7 @@ const getLocalSmartResponse = (query, isTa) => {
   // Doctors
   if (q.includes('doctor') || q.includes('agri doctor') || q.includes('disease') || q.includes('pest') || q.includes('மருத்துவர்') || q.includes('பூச்சி')) {
     if (isTa) {
-      return `👨‍⚕️ **வேளாண் மருத்துவர் மற்றும் பயிர் பாதுகாப்பு:**\n\n1. உங்கள் டாஷ்போர்டில் **'Agri Doctors'** தாவலை கிளிக் செய்யவும்.\n2. உங்கள் மாவட்டத்தை தேர்வு செய்து, அருகிலுள்ள சான்றளிக்கப்பட்ட வேளாண் ஆலோசகர்களை காணலாம்.\n3. **📞 Call** அல்லது **💬 WhatsApp** பட்டன் மூலம் நேரடியாக பேசி பயிர் நோய் மற்றும் பூச்சி மேலாண்மை ஆலோசனைகளை பெறலாம்!\`;
+      return `👨‍⚕️ **வேளாண் மருத்துவர் மற்றும் பயிர் பாதுகாப்பு:**\n\n1. உங்கள் டாஷ்போர்டில் **'Agri Doctors'** தாவலை கிளிக் செய்யவும்.\n2. உங்கள் மாவட்டத்தை தேர்வு செய்து, அருகிலுள்ள சான்றளிக்கப்பட்ட வேளாண் ஆலோசகர்களை காணலாம்.\n3. **📞 Call** அல்லது **💬 WhatsApp** பட்டன் மூலம் நேரடியாக பேசி பயிர் நோய் மற்றும் பூச்சி மேலாண்மை ஆலோசனைகளை பெறலாம்!`;
     }
     return `👨‍⚕️ **Consulting Agricultural Doctors on AgriConnect:**\n\n1. In your Farmer Dashboard, click on **'Agri Doctors'**.\n2. Filter by your district in Tamil Nadu to find certified agronomists and plant doctors.\n3. Use the one-click **'Call'** or **'WhatsApp'** buttons to share crop disease photos and get expert remedy prescriptions.`;
   }
