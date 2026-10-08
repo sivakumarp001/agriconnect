@@ -20,6 +20,13 @@
 /* ========================================================
    2. BODY & GLOBAL TYPOGRAPHY
    ======================================================== */
+html,
+body {
+  max-width: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   background-color: #ffffff;
   font-family: 'Inter', system-ui, sans-serif;
@@ -262,8 +269,8 @@ h1,
    7. AUTH CARD
    ======================================================== */
 .auth-card {
-  max-width: 470px;
-  padding: 34px !important;
+  max-width: 620px;
+  padding: 38px !important;
   margin: 25px auto !important;
 }
 

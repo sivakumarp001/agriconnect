@@ -61,6 +61,8 @@ function SchemeRoute() {
       <GovernmentSchemesPage />
     </ErrorBoundary>
   );
+}
+
 function EquipmentRoute() {
   const { user } = useAuth();
   if (user?.role === 'farmer') {

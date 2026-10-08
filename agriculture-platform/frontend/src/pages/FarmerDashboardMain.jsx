@@ -1079,6 +1079,8 @@ export default function FarmerDashboardMain({ initialSection }) {
               </form>
             </div>
           </div>
+        )}
+
         {/* Booking Machinery Modal */}
         {bookingEquip && (
           <div className="details-modal-scrim" onClick={handleCloseBooking}>
