@@ -6,7 +6,8 @@
     "dev": "nodemon server.js",
     "start": "node server.js",
     "seed": "node utils/seedAdmin.js",
-    "seed:fertilizers": "node scripts/seedFertilizers.js"
+    "seed:fertilizers": "node scripts/seedFertilizers.js",
+    "seed:schemes": "node scripts/seedSchemes.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -17,9 +17,11 @@ import {
   StethoscopeIcon,
   UsersIcon,
   SidebarHillsIllustration,
-  FertilizerIcon
+  FertilizerIcon,
+  GovtSchemeIcon
 } from '../components/FarmerIcons';
 import FertilizerPricePage from './FertilizerPricePage';
+import GovernmentSchemesPage from './GovernmentSchemesPage';
 import './DetailPages.css';
 import './FarmerProductsDashboard.css';
 
@@ -53,6 +55,7 @@ export default function FarmerDashboardMain({ initialSection }) {
     if (initialSection) return initialSection;
     if (typeof window !== 'undefined' && window.location.pathname === '/community') return 'collaboration';
     if (typeof window !== 'undefined' && window.location.pathname === '/fertilizers') return 'fertilizers';
+    if (typeof window !== 'undefined' && window.location.pathname === '/schemes') return 'schemes';
     const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
     return params?.get('tab') || 'products';
   });
@@ -187,7 +190,8 @@ export default function FarmerDashboardMain({ initialSection }) {
     equipment: 'Rent Equipment',
     rentals: 'Rental Status',
     doctors: 'Agricultural Doctors',
-    fertilizers: 'Fertilizer Prices'
+    fertilizers: 'Fertilizer Prices',
+    schemes: 'Government Schemes & Subsidies'
   }[section];
 
   const NAV_ITEMS = [
@@ -197,7 +201,8 @@ export default function FarmerDashboardMain({ initialSection }) {
     { key: 'rentals', label: 'Rental Status', icon: CalendarIcon },
     { key: 'doctors', label: 'Agri Doctors', icon: StethoscopeIcon },
     { key: 'collaboration', label: 'Farmer Collaboration', icon: UsersIcon },
-    { key: 'fertilizers', label: 'Fertilizer Prices', icon: FertilizerIcon }
+    { key: 'fertilizers', label: 'Fertilizer Prices', icon: FertilizerIcon },
+    { key: 'schemes', label: 'Govt Schemes', icon: GovtSchemeIcon }
   ];
 
   return (
@@ -381,6 +386,10 @@ export default function FarmerDashboardMain({ initialSection }) {
           ) : section === 'fertilizers' ? (
             <ErrorBoundary>
               <FertilizerPricePage />
+            </ErrorBoundary>
+          ) : section === 'schemes' ? (
+            <ErrorBoundary>
+              <GovernmentSchemesPage embedded={true} />
             </ErrorBoundary>
           ) : (
             <>

@@ -16,6 +16,7 @@ import FarmerCommunity from './pages/FarmerCommunity';
 import AdminDashboard from './pages/AdminDashboard';
 import BuyerOrders from './pages/BuyerOrders';
 import FertilizerPricePage from './pages/FertilizerPricePage';
+import GovernmentSchemesPage from './pages/GovernmentSchemesPage';
 
 function DashboardPage() {
   const { user } = useAuth();
@@ -45,6 +46,22 @@ function FertilizerRoute() {
   );
 }
 
+function SchemeRoute() {
+  const { user } = useAuth();
+  if (user?.role === 'farmer') {
+    return (
+      <ErrorBoundary>
+        <FarmerDashboardMain initialSection="schemes" />
+      </ErrorBoundary>
+    );
+  }
+  return (
+    <ErrorBoundary>
+      <GovernmentSchemesPage />
+    </ErrorBoundary>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -62,6 +79,7 @@ export default function App() {
             <Route path="/equipment/:id" element={<EquipmentDetailPage />} />
             <Route path="/community" element={<FarmerCommunity />} />
             <Route path="/fertilizers" element={<FertilizerRoute />} />
+            <Route path="/schemes" element={<SchemeRoute />} />
             <Route path="/cart" element={<Protected roles={['buyer']}><Cart /></Protected>} />
             <Route path="/admin" element={<Protected roles={['admin']}><AdminDashboard /></Protected>} />
             <Route path="/dashboard" element={<Protected><DashboardPage /></Protected>} />

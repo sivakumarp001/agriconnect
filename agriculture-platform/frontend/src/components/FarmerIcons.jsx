@@ -321,5 +321,16 @@ export const RefreshCwIcon = ({ size = 18, className = '' }) => (
   </svg>
 );
 
+export const GovtSchemeIcon = ({ size = 18, className = '' }) => (
+  <svg {...iconProps} width={size} height={size} className={className} viewBox="0 0 24 24">
+    <line x1="2" y1="22" x2="22" y2="22" />
+    <path d="m3 7 9-5 9 5v2H3V7Z" />
+    <line x1="6" y1="11" x2="6" y2="18" />
+    <line x1="10" y1="11" x2="10" y2="18" />
+    <line x1="14" y1="11" x2="14" y2="18" />
+    <line x1="18" y1="11" x2="18" y2="18" />
+  </svg>
+);
+
 
 

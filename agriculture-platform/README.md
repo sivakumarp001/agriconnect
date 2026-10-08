@@ -40,6 +40,8 @@ agriculture-platform/
 - Products with image upload, search, shopping cart, checkout, and farmer/admin order status updates.
 - Equipment listings, image uploads, availability, rental requests, and rental-owner accept/reject workflow.
 - Farmer posts and comments, plus administrative content and account management endpoints.
+- Government Schemes & Subsidies Navigator: Bilingual (English & Tamil) directory of verified Central and Tamil Nadu agricultural welfare schemes, interactive eligibility calculator, application document checklist, and official portal links.
+- Fertilizer live prices and regional Agrisnet tracker with dual language support.
 - Role-aware React dashboard, Bootstrap responsive UI, API error feedback, and protected routes.
 
 ## Requirements
@@ -96,6 +98,8 @@ All APIs use the `/api` prefix. Protected requests require `Authorization: Beare
 | Orders | `GET/POST /orders`, `PUT /orders/:id/status` |
 | Rentals | `GET/POST /rentals`, `PUT /rentals/:id/status` |
 | Community | `GET/POST /posts`, comments under `/posts/:postId/comments` |
+| Fertilizers | `GET /fertilizers`, `GET /fertilizers/:id/price` |
+| Government Schemes | `GET /schemes`, `GET /schemes/categories`, `GET/PUT/DELETE /schemes/:id` |
 | Administration | `/admin/stats`, `/admin/users`, `/admin/content` |
 
 Images are stored locally under `backend/uploads` and served from `/uploads/<filename>`. For deployment, replace this with cloud storage and use HTTPS, a managed MongoDB instance, a strong random `JWT_SECRET`, and restricted CORS origins.

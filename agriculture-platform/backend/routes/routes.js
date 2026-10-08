@@ -5,6 +5,7 @@ import * as a from '../controllers/adminController.js';
 import { protect, authorize } from '../middleware/auth.js';
 import upload from '../middleware/upload.js';
 import fertilizerRoutes from './fertilizers.js';
+import schemeRoutes from './schemes.js';
 
 const r = Router();
 
@@ -57,6 +58,9 @@ r.delete('/comments/:id', protect, c.deleteComment);
 
 // Fertilizer Prices
 r.use('/fertilizers', fertilizerRoutes);
+
+// Government Schemes & Subsidies
+r.use('/schemes', schemeRoutes);
 
 // Agri Doctors & Admin
 r.get('/agri-doctors', a.doctors);
