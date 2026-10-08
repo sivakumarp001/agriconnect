@@ -4,12 +4,25 @@ import api, { imageUrl } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './DetailPages.css';
 
-const Photo = ({ src, alt }) =>
-  src ? (
-    <img className="detail-photo" src={imageUrl(src)} alt={alt} />
-  ) : (
-    <div className="detail-photo detail-photo-empty">🚜 No photo uploaded</div>
+const Photo = ({ src, alt }) => {
+  const [hasError, setHasError] = useState(false);
+  if (!src || hasError) {
+    return (
+      <div className="detail-photo detail-photo-empty">
+        <span style={{ fontSize: '4.5rem' }}>🚜</span>
+        <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 600 }}>Agricultural Machinery</span>
+      </div>
+    );
+  }
+  return (
+    <img
+      className="detail-photo"
+      src={src.startsWith('http') ? src : imageUrl(src)}
+      alt={alt}
+      onError={() => setHasError(true)}
+    />
   );
+};
 
 export function ProductDetailPage() {
   const { id } = useParams();
@@ -146,10 +159,13 @@ export function EquipmentDetailPage() {
   return (
     <main className="detail-page-wrapper">
       <div className="container py-4">
-        <div className="mb-4">
+        <div className="mb-4 d-flex justify-content-between align-items-center">
           <Link className="detail-back-btn" to="/equipment">
-            ← Back to Equipment List
+            ← Back to Equipment Catalog
           </Link>
+          <span className="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-semibold">
+            🚜 AgriConnect Machinery Rental
+          </span>
         </div>
 
         <div className="detail-card-container">

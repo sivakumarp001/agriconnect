@@ -61,6 +61,20 @@ function SchemeRoute() {
       <GovernmentSchemesPage />
     </ErrorBoundary>
   );
+function EquipmentRoute() {
+  const { user } = useAuth();
+  if (user?.role === 'farmer') {
+    return (
+      <ErrorBoundary>
+        <FarmerDashboardMain initialSection="equipment" />
+      </ErrorBoundary>
+    );
+  }
+  return (
+    <ErrorBoundary>
+      <EquipmentRental />
+    </ErrorBoundary>
+  );
 }
 
 export default function App() {
@@ -76,7 +90,7 @@ export default function App() {
             <Route path="/products" element={<BuyerMarketplace />} />
             <Route path="/products/:id" element={<ProductDetailPage />} />
             <Route path="/purchases" element={<Protected roles={['buyer']}><BuyerOrders /></Protected>} />
-            <Route path="/equipment" element={<EquipmentRental />} />
+            <Route path="/equipment" element={<EquipmentRoute />} />
             <Route path="/equipment/:id" element={<EquipmentDetailPage />} />
             <Route path="/community" element={<FarmerCommunity />} />
             <Route path="/fertilizers" element={<FertilizerRoute />} />

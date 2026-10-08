@@ -56,6 +56,7 @@ export default function FarmerDashboardMain({ initialSection }) {
     if (typeof window !== 'undefined' && window.location.pathname === '/community') return 'collaboration';
     if (typeof window !== 'undefined' && window.location.pathname === '/fertilizers') return 'fertilizers';
     if (typeof window !== 'undefined' && window.location.pathname === '/schemes') return 'schemes';
+    if (typeof window !== 'undefined' && (window.location.pathname === '/equipment' || window.location.pathname.startsWith('/equipment'))) return 'equipment';
     const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
     return params?.get('tab') || 'products';
   });
@@ -93,6 +94,93 @@ export default function FarmerDashboardMain({ initialSection }) {
   // Agri Doctor filters
   const [doctorLocation, setDoctorLocation] = useState('');
   const [doctorSearch, setDoctorSearch] = useState('');
+  const [editingEquip, setEditingEquip] = useState(null);
+  const [equipForm, setEquipForm] = useState({
+    equipmentName: '',
+    rentalPrice: '',
+    location: '',
+    description: '',
+    availability: true
+  });
+
+  const handleOpenEditEquipment = (item) => {
+    setEditingEquip(item);
+    setEquipForm({
+      equipmentName: item.equipmentName || '',
+      rentalPrice: item.rentalPrice !== undefined ? String(item.rentalPrice) : '',
+      location: item.location || '',
+      description: item.description || '',
+      availability: item.availability !== false
+    });
+  };
+
+  const handleSaveEquipment = async (e) => {
+    e.preventDefault();
+    if (!editingEquip) return;
+    try {
+      const data = new FormData();
+      data.append('equipmentName', equipForm.equipmentName);
+      data.append('rentalPrice', equipForm.rentalPrice);
+      data.append('location', equipForm.location);
+      data.append('description', equipForm.description);
+      data.append('availability', equipForm.availability);
+
+      const res = await api.put(`/equipment/${editingEquip._id}`, data);
+      setEquipment((prev) =>
+        prev.map((eq) => (eq._id === editingEquip._id ? { ...eq, ...res.data } : eq))
+      );
+      setEditingEquip(null);
+      setNotice('Rental vehicle updated successfully!');
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to update equipment');
+    }
+  };
+
+  // Machinery Booking Modal State
+  const [bookingEquip, setBookingEquip] = useState(null);
+  const [bookingAcres, setBookingAcres] = useState('');
+  const [bookingNotice, setBookingNotice] = useState('');
+  const [isSubmittingBooking, setIsSubmittingBooking] = useState(false);
+
+  const handleOpenBooking = (item) => {
+    setBookingEquip(item);
+    setBookingAcres('');
+    setBookingNotice('');
+  };
+
+  const handleCloseBooking = () => {
+    setBookingEquip(null);
+    setBookingAcres('');
+    setBookingNotice('');
+  };
+
+  const handleSubmitBooking = async (e) => {
+    e.preventDefault();
+    if (!bookingEquip) return;
+    const acresVal = Number(bookingAcres);
+    if (!acresVal || acresVal <= 0) {
+      alert('Please enter a valid farm area in acres.');
+      return;
+    }
+    setIsSubmittingBooking(true);
+    try {
+      await api.post('/rentals', {
+        equipment: bookingEquip._id,
+        acres: acresVal
+      });
+      setBookingNotice(`Rental request for ${bookingEquip.equipmentName} sent! The owner will review your booking.`);
+      // Refresh rentals
+      const rentalData = await api.get('/rentals');
+      setRentals(rentalData.data || []);
+      setTimeout(() => {
+        handleCloseBooking();
+      }, 1800);
+    } catch (err) {
+      alert(err.response?.data?.message || 'Unable to submit rental request.');
+    } finally {
+      setIsSubmittingBooking(false);
+    }
+  };
 
   const load = async () => {
     try {
@@ -522,9 +610,13 @@ export default function FarmerDashboardMain({ initialSection }) {
                     : `Showing all available equipment (${filteredEquipment.length} found)`}
                 </small>
               </div>
-              <Link className="btn btn-sm btn-success" to="/equipment">
-                Open full rental catalog →
-              </Link>
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-success px-3 rounded-pill"
+                onClick={() => { setEquipmentLocation(''); setEquipmentSearch(''); }}
+              >
+                ↺ View All Equipment
+              </button>
             </div>
 
             {/* Location Filter Bar */}
@@ -619,9 +711,26 @@ export default function FarmerDashboardMain({ initialSection }) {
                         <span className="farmer-equipment-unit">/hour</span>
                       </div>
 
-                      <Link className="farmer-equipment-book-btn" to={`/equipment/${item._id}`}>
-                        View & book
-                      </Link>
+                      <div className="d-flex align-items-center gap-2">
+                        <button
+                          type="button"
+                          className="farmer-equipment-book-btn"
+                          onClick={() => handleOpenBooking(item)}
+                        >
+                          View & book
+                        </button>
+                        {(user?.role === 'admin' || user?.role === 'rentalOwner' || item.owner?._id === user?.id || item.owner === user?.id || !item.owner) && (
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-outline-success px-3 fw-bold"
+                            style={{ height: '38px', whiteSpace: 'nowrap', borderRadius: '10px' }}
+                            onClick={() => handleOpenEditEquipment(item)}
+                            title="Edit rental vehicle"
+                          >
+                            ✏️ Edit
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </article>
                 ))}
@@ -881,6 +990,219 @@ export default function FarmerDashboardMain({ initialSection }) {
                 )}
               </div>
             )}
+          </div>
+        )}
+
+        {/* Edit Equipment Modal */}
+        {editingEquip && (
+          <div className="details-modal-scrim" onClick={() => setEditingEquip(null)}>
+            <div className="details-modal-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 520, borderRadius: 16 }}>
+              <div className="p-3 border-bottom d-flex justify-content-between align-items-center">
+                <h5 className="mb-0 fw-bold">✏️ Edit Rental Vehicle</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setEditingEquip(null)}
+                />
+              </div>
+              <form onSubmit={handleSaveEquipment} className="p-3">
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Equipment / Vehicle Name</label>
+                  <input
+                    className="form-control"
+                    required
+                    value={equipForm.equipmentName}
+                    onChange={(e) => setEquipForm({ ...equipForm, equipmentName: e.target.value })}
+                  />
+                </div>
+                <div className="row g-3 mb-3">
+                  <div className="col-6">
+                    <label className="form-label fw-semibold">Rental Price (₹/hr)</label>
+                    <input
+                      className="form-control"
+                      type="number"
+                      required
+                      min="0"
+                      value={equipForm.rentalPrice}
+                      onChange={(e) => setEquipForm({ ...equipForm, rentalPrice: e.target.value })}
+                    />
+                  </div>
+                  <div className="col-6">
+                    <label className="form-label fw-semibold">Location (District)</label>
+                    <input
+                      className="form-control"
+                      required
+                      list="tn-districts-equip-modal"
+                      value={equipForm.location}
+                      onChange={(e) => setEquipForm({ ...equipForm, location: e.target.value })}
+                    />
+                    <datalist id="tn-districts-equip-modal">
+                      {TAMIL_NADU_DISTRICTS.map((d) => (
+                        <option key={d} value={d} />
+                      ))}
+                    </datalist>
+                  </div>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Description</label>
+                  <textarea
+                    className="form-control"
+                    rows="3"
+                    value={equipForm.description}
+                    onChange={(e) => setEquipForm({ ...equipForm, description: e.target.value })}
+                  />
+                </div>
+                <div className="mb-3 form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="modalAvailability"
+                    checked={equipForm.availability}
+                    onChange={(e) => setEquipForm({ ...equipForm, availability: e.target.checked })}
+                  />
+                  <label className="form-check-label fw-semibold ms-1" htmlFor="modalAvailability">
+                    Available for rent
+                  </label>
+                </div>
+                <div className="d-flex justify-content-end gap-2 pt-3 border-top">
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary btn-sm px-3"
+                    onClick={() => setEditingEquip(null)}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className="btn btn-success btn-sm px-4 fw-bold">
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        {/* Booking Machinery Modal */}
+        {bookingEquip && (
+          <div className="details-modal-scrim" onClick={handleCloseBooking}>
+            <div className="details-modal-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 540, borderRadius: 16 }}>
+              <div className="details-modal-image-wrap" style={{ height: 200, background: '#eef6f0', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                {bookingEquip.image ? (
+                  <img
+                    src={`${api.defaults.baseURL.replace('/api', '')}${bookingEquip.image}`}
+                    alt={bookingEquip.equipmentName}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <span style={{ fontSize: '5rem' }}>🚜</span>
+                )}
+                <button
+                  type="button"
+                  className="details-modal-close-btn"
+                  onClick={handleCloseBooking}
+                  aria-label="Close"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="details-modal-body p-4">
+                <div className="d-flex justify-content-between align-items-start mb-2">
+                  <div>
+                    <span className="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill me-2 text-uppercase fw-bold" style={{ fontSize: '11px' }}>
+                      {bookingEquip.category || 'Agricultural Machinery'}
+                    </span>
+                    <span className="badge-tn-location">
+                      📍 {bookingEquip.location || 'Tamil Nadu'}
+                    </span>
+                  </div>
+                  <span className={`farmer-equipment-badge ${bookingEquip.availability === false ? 'rented' : 'avail'}`} style={{ position: 'static' }}>
+                    {bookingEquip.availability === false ? 'Currently Booked' : 'Available for Rent'}
+                  </span>
+                </div>
+
+                <h3 className="fw-bold mb-1 text-dark" style={{ fontSize: '1.4rem' }}>
+                  {bookingEquip.equipmentName}
+                </h3>
+
+                <div className="d-flex align-items-baseline gap-1 my-2">
+                  <span className="fs-3 fw-bolder text-success">₹{bookingEquip.rentalPrice}</span>
+                  <span className="text-muted fw-semibold">/ hour</span>
+                </div>
+
+                {bookingEquip.description && (
+                  <p className="text-muted small mb-3" style={{ lineHeight: 1.5 }}>
+                    {bookingEquip.description}
+                  </p>
+                )}
+
+                {/* Owner Info Box */}
+                <div className="p-3 rounded-3 mb-3" style={{ background: '#f8faf9', border: '1px solid #e2e8f0' }}>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <small className="text-muted text-uppercase fw-bold" style={{ fontSize: '10.5px' }}>Equipment Owner</small>
+                      <div className="fw-bold text-dark">{bookingEquip.owner?.name || 'Verified Owner'}</div>
+                    </div>
+                    {bookingEquip.owner?.phone && (
+                      <a
+                        href={`tel:${bookingEquip.owner.phone}`}
+                        className="btn btn-sm btn-outline-success fw-semibold"
+                      >
+                        📞 Call {bookingEquip.owner.phone}
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Booking Form */}
+                {bookingNotice ? (
+                  <div className="alert alert-success py-2 px-3 fw-semibold text-center mb-0" style={{ fontSize: '13.5px' }}>
+                    ✅ {bookingNotice}
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmitBooking}>
+                    <div className="mb-3">
+                      <label className="form-label fw-bold text-dark small">
+                        🌾 Farm Area to Work (Acres) <span className="text-danger">*</span>
+                      </label>
+                      <div className="input-group">
+                        <input
+                          type="number"
+                          step="0.1"
+                          min="0.1"
+                          required
+                          className="form-control"
+                          placeholder="e.g. 2.5"
+                          value={bookingAcres}
+                          onChange={(e) => setBookingAcres(e.target.value)}
+                        />
+                        <span className="input-group-text bg-light text-muted fw-semibold">acres</span>
+                      </div>
+                      <small className="text-muted d-block mt-1">
+                        The owner will receive this request with your registered phone number.
+                      </small>
+                    </div>
+
+                    <div className="d-flex gap-2">
+                      <button
+                        type="button"
+                        className="btn btn-outline-secondary w-50 py-2 fw-semibold"
+                        onClick={handleCloseBooking}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn btn-success w-50 py-2 fw-bold"
+                        disabled={isSubmittingBooking || bookingEquip.availability === false}
+                      >
+                        {isSubmittingBooking ? 'Sending...' : 'Confirm Request →'}
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </>
