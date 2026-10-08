@@ -17,6 +17,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import BuyerOrders from './pages/BuyerOrders';
 import FertilizerPricePage from './pages/FertilizerPricePage';
 import GovernmentSchemesPage from './pages/GovernmentSchemesPage';
+import AgriChatbot from './components/AgriChatbot';
 
 function DashboardPage() {
   const { user } = useAuth();
@@ -86,6 +87,8 @@ export default function App() {
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         </Layout>
+        {/* Global Floating AI Assistant Widget */}
+        <AgriChatbot />
       </ErrorBoundary>
     </BrowserRouter>
   );

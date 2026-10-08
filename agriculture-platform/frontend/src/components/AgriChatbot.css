@@ -1,0 +1,526 @@
+/* AgriBot AI Chatbot Styling - AgroConnect */
+
+/* Floating Launcher Button */
+.agribot-launcher-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #166534 0%, #15803d 100%);
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  box-shadow: 0 8px 24px rgba(22, 101, 52, 0.4), 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  outline: none;
+}
+
+.agribot-launcher-btn:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 12px 28px rgba(22, 101, 52, 0.5);
+}
+
+.agribot-launcher-btn.open {
+  background: #1e293b;
+  transform: rotate(90deg);
+}
+
+.agribot-launcher-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.4);
+  animation: agribot-pulse 2s infinite ease-out;
+  pointer-events: none;
+}
+
+@keyframes agribot-pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.agribot-launcher-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #eab308;
+  color: #000000;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Chat Window Box */
+.agribot-window {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  z-index: 9999;
+  width: 390px;
+  max-width: calc(100vw - 32px);
+  height: 580px;
+  max-height: calc(100vh - 120px);
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: agribot-slide-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+
+@keyframes agribot-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Header */
+.agribot-header {
+  background: linear-gradient(135deg, #14532d 0%, #166534 60%, #15803d 100%);
+  color: #ffffff;
+  padding: 1rem 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.agribot-header-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.agribot-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.agribot-name-box h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #ffffff;
+}
+
+.agribot-status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: #bbf7d0;
+  font-weight: 500;
+}
+
+.agribot-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+}
+
+.agribot-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.agribot-header-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.agribot-header-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.agribot-close-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.agribot-close-btn:hover {
+  opacity: 1;
+}
+
+/* Chat Message Area */
+.agribot-messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1rem 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background: #f8fafc;
+}
+
+/* Welcome Card */
+.agribot-welcome-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.agribot-welcome-badge {
+  display: inline-block;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.15rem 0.55rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.agribot-welcome-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.35rem 0;
+}
+
+.agribot-welcome-text {
+  font-size: 0.83rem;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0 0 0.75rem 0;
+}
+
+/* Quick Suggestion Chips */
+.agribot-chips-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 0.4rem;
+}
+
+.agribot-chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.agribot-chip-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 0.35rem 0.65rem;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.agribot-chip-btn:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+/* Message Bubbles */
+.agribot-msg-row {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 90%;
+}
+
+.agribot-msg-row.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.agribot-msg-row.bot {
+  align-self: flex-start;
+}
+
+.agribot-msg-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #dcfce7;
+  color: #166534;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.agribot-msg-bubble {
+  border-radius: 14px;
+  padding: 0.7rem 0.95rem;
+  font-size: 0.87rem;
+  line-height: 1.5;
+  position: relative;
+  word-break: break-word;
+}
+
+.agribot-msg-row.user .agribot-msg-bubble {
+  background: #166534;
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 2px 4px rgba(22, 101, 52, 0.2);
+}
+
+.agribot-msg-row.bot .agribot-msg-bubble {
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.agribot-msg-time {
+  font-size: 0.68rem;
+  margin-top: 0.3rem;
+  opacity: 0.7;
+  display: block;
+  text-align: right;
+}
+
+.agribot-msg-row.bot .agribot-msg-time {
+  text-align: left;
+}
+
+/* Copy button */
+.agribot-copy-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.72rem;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+.agribot-copy-btn:hover {
+  background: #f1f5f9;
+  color: #166534;
+}
+
+/* Typing Indicator Animation */
+.agribot-typing-bubble {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.65rem 0.95rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+  width: fit-content;
+}
+
+.agribot-typing-dot {
+  width: 6px;
+  height: 6px;
+  background: #166534;
+  border-radius: 50%;
+  animation: agribot-bounce 1.4s infinite ease-in-out both;
+}
+
+.agribot-typing-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.agribot-typing-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes agribot-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Input Bar */
+.agribot-input-container {
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+}
+
+.agribot-input-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 24px;
+  padding: 0.3rem 0.5rem 0.3rem 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.agribot-input-form:focus-within {
+  border-color: #166534;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.15);
+}
+
+.agribot-input-field {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.88rem;
+  color: #0f172a;
+  outline: none;
+  padding: 0.35rem 0;
+  font-family: inherit;
+}
+
+.agribot-input-field::placeholder {
+  color: #94a3b8;
+}
+
+.agribot-voice-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 1.1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.agribot-voice-btn:hover {
+  color: #166534;
+  background: #f1f5f9;
+}
+
+.agribot-voice-btn.listening {
+  color: #dc2626;
+  background: #fee2e2;
+  animation: agribot-mic-pulse 1s infinite alternate;
+}
+
+@keyframes agribot-mic-pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.15);
+  }
+}
+
+.agribot-send-btn {
+  background: #166534;
+  color: #ffffff;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.agribot-send-btn:hover:not(:disabled) {
+  background: #14532d;
+  transform: scale(1.05);
+}
+
+.agribot-send-btn:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+/* Footer note */
+.agribot-footer-note {
+  text-align: center;
+  font-size: 0.68rem;
+  color: #94a3b8;
+  margin-top: 0.35rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .agribot-window {
+    right: 12px;
+    bottom: 84px;
+    width: calc(100vw - 24px);
+    height: calc(100vh - 100px);
+    border-radius: 16px;
+  }
+  .agribot-launcher-btn {
+    bottom: 16px;
+    right: 16px;
+    width: 52px;
+    height: 52px;
+  }
+}

@@ -6,6 +6,7 @@ import { protect, authorize } from '../middleware/auth.js';
 import upload from '../middleware/upload.js';
 import fertilizerRoutes from './fertilizers.js';
 import schemeRoutes from './schemes.js';
+import chatRoutes from './chat.js';
 
 const r = Router();
 
@@ -61,6 +62,9 @@ r.use('/fertilizers', fertilizerRoutes);
 
 // Government Schemes & Subsidies
 r.use('/schemes', schemeRoutes);
+
+// AI Chatbot Assistant (AgriBot powered by Gemini)
+r.use('/chat', chatRoutes);
 
 // Agri Doctors & Admin
 r.get('/agri-doctors', a.doctors);
