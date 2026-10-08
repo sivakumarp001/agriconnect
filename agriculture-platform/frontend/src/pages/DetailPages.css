@@ -1,1 +1,294 @@
-.detail-photo{width:100%;min-height:340px;max-height:500px;object-fit:cover;border-radius:16px;background:#e8f2e9}.detail-photo-empty{display:grid;place-items:center;color:#607165}.contact-card{display:grid;gap:4px;margin:22px 0;padding:15px 17px;border:1px solid #cce2d0;border-left:4px solid #278a51;border-radius:12px;background:#f4faf5}.contact-card strong{color:#155a38}.contact-card a,.rental-phone{color:#155a38;font-weight:700;text-decoration:none}.contact-card a:hover,.rental-phone:hover{text-decoration:underline}.listing-preview{display:block;width:100%;height:150px;object-fit:cover;margin-top:12px;border-radius:10px}.listing-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #e0ece2}.listing-row img{width:64px;height:64px;object-fit:cover;border-radius:9px}.listing-row div{display:grid;gap:3px;flex:1}.listing-row small,.order-row small{display:block;color:#6d7d73}.order-row{align-items:center}.farmer-equipment-panel{background:#f7faf7}.equipment-contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.equipment-listing{border:1px solid #e0ece2;border-radius:10px;padding:10px}.equipment-listing a{color:#155a38;font-weight:700;text-decoration:none}.equipment-thumb-empty{width:64px;height:64px;display:grid!important;place-items:center;background:#e8f2e9;border-radius:9px;color:#607165;font-size:11px}@media(max-width:768px){.equipment-contact-grid{grid-template-columns:1fr}.farmer-equipment-panel{padding-left:12px;padding-right:12px}}
+.detail-page-wrapper {
+  background-color: #ffffff;
+  min-height: 100vh;
+  padding: 30px 0 60px;
+}
+
+.detail-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #166534;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 24px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.detail-back-btn:hover {
+  background: #dcfce7;
+  color: #14532d;
+  transform: translateX(-2px);
+}
+
+.detail-card-container {
+  background: #ffffff;
+  border: 1px solid #e2ece4;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 8px 26px rgba(18, 63, 42, 0.05);
+}
+
+.detail-image-box {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #f4faf5;
+  border: 1px solid #e1ede3;
+}
+
+.detail-photo {
+  width: 100%;
+  min-height: 360px;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-photo-empty {
+  display: grid;
+  place-items: center;
+  min-height: 360px;
+  color: #718777;
+  font-weight: 600;
+  background: #edf5ee;
+}
+
+.detail-status-pill {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detail-status-pill.available {
+  background: rgba(240, 253, 244, 0.95);
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.detail-status-pill.unavailable {
+  background: rgba(254, 242, 242, 0.95);
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.detail-info-pane {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-category-tag {
+  background: #f0fdf4;
+  color: #166534;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid #bbf7d0;
+}
+
+.detail-location-tag {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+}
+
+.detail-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: #143d24;
+  margin: 10px 0 12px;
+  line-height: 1.25;
+}
+
+.detail-price-banner {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 10px 18px;
+  margin-bottom: 18px;
+  align-self: flex-start;
+}
+
+.detail-price-val {
+  font-size: 26px;
+  font-weight: 800;
+  color: #15803d;
+}
+
+.detail-price-unit {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.detail-desc-box {
+  margin-bottom: 20px;
+}
+
+.detail-subhead {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #718376;
+  margin-bottom: 6px;
+}
+
+.detail-description {
+  font-size: 15px;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.detail-contact-card {
+  background: #ffffff;
+  border: 1px solid #dce8df;
+  border-left: 4px solid #16a34a;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.detail-contact-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.detail-avatar-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: #eaf5ed;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.detail-contact-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #718376;
+  text-transform: uppercase;
+}
+
+.detail-contact-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #173d29;
+  margin: 0;
+}
+
+.detail-phone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #15803d;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  background: #edf7ef;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.detail-phone-link:hover {
+  background: #dcfce7;
+  text-decoration: none;
+  color: #14532d;
+}
+
+.detail-booking-card {
+  background: #ffffff;
+  border: 1.5px solid #86efac;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 4px 16px rgba(22, 101, 52, 0.06);
+}
+
+.detail-booking-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #173d29;
+  margin: 0 0 4px;
+}
+
+.detail-booking-desc {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.detail-submit-btn {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  border: none;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.detail-submit-btn:hover {
+  background: linear-gradient(135deg, #15803d, #166534);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(22, 163, 74, 0.35);
+}
+
+.detail-attachments-box {
+  background: #ffffff;
+  border: 1px solid #e2ece4;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.detail-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #173d29;
+  margin: 0 0 10px;
+}
+
+.detail-attachment-item {
+  border: 1px solid #e2ece4;
+  border-radius: 10px;
+  padding: 10px;
+  background: #fafdfa;
+}
+
+.detail-attachment-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .detail-card-container {
+    padding: 20px;
+  }
+  .detail-title {
+    font-size: 24px;
+  }
+}

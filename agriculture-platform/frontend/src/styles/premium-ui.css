@@ -21,29 +21,10 @@
    2. BODY & GLOBAL TYPOGRAPHY
    ======================================================== */
 body {
-  background-color: #f7fbf7;
+  background-color: #ffffff;
   font-family: 'Inter', system-ui, sans-serif;
   color: var(--ink);
-  position: relative;
   min-height: 100vh;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  top: -20px;
-  left: -20px;
-  right: -20px;
-  bottom: -20px;
-  background-image: url('../assets/farm-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: blur(10px);
-  -webkit-filter: blur(10px);
-  transform: scale(1.05);
-  z-index: -1;
-  pointer-events: none;
 }
 
 h1,

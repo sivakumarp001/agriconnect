@@ -4,21 +4,292 @@ import api, { imageUrl } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './DetailPages.css';
 
-const Photo = ({ src, alt }) => src ? <img className="detail-photo" src={imageUrl(src)} alt={alt} /> : <div className="detail-photo detail-photo-empty">No photo uploaded</div>;
-const Contact = ({ title, person }) => <div className="contact-card"><strong>{title}</strong><span>{person?.name || 'Not provided'}</span>{person?.phone ? <a href={`tel:${person.phone}`}>Phone: {person.phone}</a> : <span>Phone not provided</span>}</div>;
+const Photo = ({ src, alt }) =>
+  src ? (
+    <img className="detail-photo" src={imageUrl(src)} alt={alt} />
+  ) : (
+    <div className="detail-photo detail-photo-empty">🚜 No photo uploaded</div>
+  );
 
 export function ProductDetailPage() {
-  const { id } = useParams(); const { user } = useAuth(); const [product, setProduct] = useState(null);
-  useEffect(() => { api.get(`/products/${id}`).then((response) => setProduct(response.data)); }, [id]);
-  if (!product) return <main className="container py-5">Loading product...</main>;
-  const addToCart = () => { const cart = JSON.parse(localStorage.cart || '[]'); const existing = cart.find((item) => item._id === product._id); existing ? existing.cartQuantity += 1 : cart.push({ ...product, cartQuantity: 1 }); localStorage.cart = JSON.stringify(cart); alert('Added to cart'); };
-  return <main className="container py-5"><div className="row g-4 detail-layout"><div className="col-md-6"><Photo src={product.image} alt={product.productName} /></div><div className="col-md-6"><span className="text-success">{product.category}</span><h1>{product.productName}</h1><p>{product.description}</p><h3>Rs. {product.price}/unit</h3><p>{product.quantity} units available</p><Contact title="Seller details" person={product.farmer} />{user?.role === 'buyer' && <button className="btn btn-success" onClick={addToCart}>Add to cart</button>}</div></div></main>;
+  const { id } = useParams();
+  const { user } = useAuth();
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    api.get(`/products/${id}`).then((response) => setProduct(response.data));
+  }, [id]);
+
+  if (!product) {
+    return (
+      <main className="detail-page-wrapper">
+        <div className="container py-5 text-center">
+          <div className="spinner-border text-success" role="status" />
+          <p className="mt-3 text-muted">Loading product details...</p>
+        </div>
+      </main>
+    );
+  }
+
+  const addToCart = () => {
+    const cart = JSON.parse(localStorage.cart || '[]');
+    const existing = cart.find((item) => item._id === product._id);
+    if (existing) {
+      existing.cartQuantity += 1;
+    } else {
+      cart.push({ ...product, cartQuantity: 1 });
+    }
+    localStorage.cart = JSON.stringify(cart);
+    alert('Added to cart');
+  };
+
+  return (
+    <main className="detail-page-wrapper">
+      <div className="container py-4">
+        <div className="mb-4">
+          <Link className="detail-back-btn" to="/products">
+            ← Back to Marketplace
+          </Link>
+        </div>
+
+        <div className="detail-card-container">
+          <div className="row g-4 align-items-start">
+            <div className="col-lg-6">
+              <div className="detail-image-box">
+                <Photo src={product.image} alt={product.productName} />
+              </div>
+            </div>
+
+            <div className="col-lg-6">
+              <div className="detail-info-pane">
+                <div className="d-flex flex-wrap align-items-center gap-2 mb-2">
+                  <span className="detail-category-tag">{product.category || 'Agricultural Produce'}</span>
+                  <span className="detail-location-tag">Stock: {product.quantity} units available</span>
+                </div>
+
+                <h1 className="detail-title">{product.productName}</h1>
+
+                <div className="detail-price-banner">
+                  <div className="detail-price-val">Rs. {product.price}</div>
+                  <span className="detail-price-unit">/ unit</span>
+                </div>
+
+                {product.description && (
+                  <div className="detail-desc-box">
+                    <h4 className="detail-subhead">Produce Description</h4>
+                    <p className="detail-description">{product.description}</p>
+                  </div>
+                )}
+
+                <div className="detail-contact-card">
+                  <div className="detail-contact-header">
+                    <span className="detail-avatar-icon">🌾</span>
+                    <div>
+                      <small className="detail-contact-label">Farmer / Seller</small>
+                      <h4 className="detail-contact-name">{product.farmer?.name || 'Verified Farmer'}</h4>
+                    </div>
+                  </div>
+                  {product.farmer?.phone && (
+                    <a className="detail-phone-link" href={`tel:${product.farmer.phone}`}>
+                      📞 Contact: {product.farmer.phone}
+                    </a>
+                  )}
+                </div>
+
+                {user?.role === 'buyer' && (
+                  <button className="btn btn-success py-2 px-4 fw-bold detail-submit-btn" onClick={addToCart}>
+                    🛒 Add to Cart
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
 }
 
 export function EquipmentDetailPage() {
-  const { id } = useParams(); const { user } = useAuth(); const [equipment, setEquipment] = useState(null); const [acres, setAcres] = useState(''); const [notice, setNotice] = useState('');
-  useEffect(() => { api.get(`/equipment/${id}`).then((response) => setEquipment(response.data)); }, [id]);
-  if (!equipment) return <main className="container py-5">Loading equipment...</main>;
-  const requestRental = async (event) => { event.preventDefault(); try { await api.post('/rentals', { equipment: equipment._id, acres }); setAcres(''); setNotice('Rental request sent. The equipment owner can now review it in their dashboard.'); } catch (error) { setNotice(error.response?.data?.message || 'Unable to send rental request.'); } };
-  return <main className="container py-5"><Link className="btn btn-outline-success mb-4" to="/equipment">← Back to equipment</Link><div className="row g-4 detail-layout"><div className="col-md-6"><Photo src={equipment.image} alt={equipment.equipmentName} /></div><div className="col-md-6"><span className="text-success">{equipment.category}</span><h1>{equipment.equipmentName}</h1><p>{equipment.description}</p><h3>Rs. {equipment.rentalPrice}/hour</h3><p>Location: {equipment.location}</p><Contact title="Equipment owner details" person={equipment.owner} />{equipment.attachments?.length > 0 && <section className="mt-4"><h2 className="h5">Included tractor attachments</h2><div className="row g-2">{equipment.attachments.map((attachment, index) => <div className="col-sm-6" key={`${attachment.name}-${index}`}><div className="border rounded p-2 h-100"><b>{attachment.name}</b>{attachment.image && <img className="img-fluid rounded mt-2" style={{ width: '100%', height: 120, objectFit: 'cover' }} src={imageUrl(attachment.image)} alt={attachment.name} />}</div></div>)}</div></section>}{user?.role === 'farmer' && <form className="contact-card" onSubmit={requestRental}><strong>Book this equipment</strong><label className="form-label">Farm area (acres)</label><input className="form-control" required min="0.01" step="0.01" type="number" placeholder="Example: 2.5" value={acres} onChange={(event) => setAcres(event.target.value)} /><small>Tell the owner how many acres need to be worked.</small><button className="btn btn-success align-self-start" disabled={!equipment.availability}>Send booking request</button>{!equipment.availability && <small className="text-danger">This equipment is currently unavailable.</small>}</form>}{user && user.role !== 'farmer' && <p className="text-muted">Sign in as a farmer to request this equipment.</p>}{notice && <div className={notice.startsWith('Rental request sent') ? 'alert alert-success mt-3' : 'alert alert-danger mt-3'}>{notice}</div>}</div></div></main>;
+  const { id } = useParams();
+  const { user } = useAuth();
+  const [equipment, setEquipment] = useState(null);
+  const [acres, setAcres] = useState('');
+  const [notice, setNotice] = useState('');
+
+  useEffect(() => {
+    api.get(`/equipment/${id}`).then((response) => setEquipment(response.data));
+  }, [id]);
+
+  if (!equipment) {
+    return (
+      <main className="detail-page-wrapper">
+        <div className="container py-5 text-center">
+          <div className="spinner-border text-success" role="status" />
+          <p className="mt-3 text-muted">Loading machinery details...</p>
+        </div>
+      </main>
+    );
+  }
+
+  const requestRental = async (event) => {
+    event.preventDefault();
+    try {
+      await api.post('/rentals', { equipment: equipment._id, acres });
+      setAcres('');
+      setNotice('Rental request sent. The equipment owner can now review it in their dashboard.');
+    } catch (error) {
+      setNotice(error.response?.data?.message || 'Unable to send rental request.');
+    }
+  };
+
+  return (
+    <main className="detail-page-wrapper">
+      <div className="container py-4">
+        <div className="mb-4">
+          <Link className="detail-back-btn" to="/equipment">
+            ← Back to Equipment List
+          </Link>
+        </div>
+
+        <div className="detail-card-container">
+          <div className="row g-4 align-items-start">
+            {/* Left Column: Photo & Attachments */}
+            <div className="col-lg-6">
+              <div className="detail-image-box">
+                <Photo src={equipment.image} alt={equipment.equipmentName} />
+                <span className={`detail-status-pill ${equipment.availability ? 'available' : 'unavailable'}`}>
+                  {equipment.availability ? '● Available for Rent' : '● Currently Booked'}
+                </span>
+              </div>
+
+              {equipment.attachments?.length > 0 && (
+                <section className="detail-attachments-box mt-4">
+                  <h3 className="detail-section-title">Included Tractor Implements / Attachments</h3>
+                  <div className="row g-2 mt-2">
+                    {equipment.attachments.map((attachment, index) => (
+                      <div className="col-sm-6" key={`${attachment.name}-${index}`}>
+                        <div className="detail-attachment-item">
+                          <b>{attachment.name}</b>
+                          {attachment.image && (
+                            <img
+                              className="detail-attachment-img mt-2"
+                              src={imageUrl(attachment.image)}
+                              alt={attachment.name}
+                            />
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </div>
+
+            {/* Right Column: Information & Booking */}
+            <div className="col-lg-6">
+              <div className="detail-info-pane">
+                <div className="d-flex flex-wrap align-items-center gap-2 mb-2">
+                  <span className="detail-category-tag">{equipment.category || 'Agricultural Machinery'}</span>
+                  <span className="detail-location-tag">📍 {equipment.location}</span>
+                </div>
+
+                <h1 className="detail-title">{equipment.equipmentName}</h1>
+
+                <div className="detail-price-banner">
+                  <div className="detail-price-val">Rs. {equipment.rentalPrice}</div>
+                  <span className="detail-price-unit">/ hour</span>
+                </div>
+
+                {equipment.description && (
+                  <div className="detail-desc-box">
+                    <h4 className="detail-subhead">Machinery Description</h4>
+                    <p className="detail-description">{equipment.description}</p>
+                  </div>
+                )}
+
+                {/* Owner Card */}
+                <div className="detail-contact-card">
+                  <div className="detail-contact-header">
+                    <span className="detail-avatar-icon">👤</span>
+                    <div>
+                      <small className="detail-contact-label">Equipment Owner</small>
+                      <h4 className="detail-contact-name">{equipment.owner?.name || 'Verified Owner'}</h4>
+                    </div>
+                  </div>
+                  {equipment.owner?.phone ? (
+                    <a className="detail-phone-link" href={`tel:${equipment.owner.phone}`}>
+                      📞 Call Owner: {equipment.owner.phone}
+                    </a>
+                  ) : (
+                    <span className="text-muted small">Phone not publicly provided</span>
+                  )}
+                </div>
+
+                {/* Booking Request Box */}
+                {user?.role === 'farmer' && (
+                  <form className="detail-booking-card" onSubmit={requestRental}>
+                    <h3 className="detail-booking-title">🚜 Book this machinery</h3>
+                    <p className="detail-booking-desc">
+                      Enter the required farm area to send a rental request directly to the owner.
+                    </p>
+                    <label className="form-label fw-bold small text-success">Farm area (acres)</label>
+                    <div className="input-group mb-2">
+                      <input
+                        className="form-control"
+                        required
+                        min="0.01"
+                        step="0.01"
+                        type="number"
+                        placeholder="e.g. 2.5"
+                        value={acres}
+                        onChange={(event) => setAcres(event.target.value)}
+                      />
+                      <span className="input-group-text bg-white text-muted">acres</span>
+                    </div>
+                    <small className="text-muted d-block mb-3">
+                      The owner will be notified in their dashboard to confirm your request.
+                    </small>
+
+                    <button
+                      className="btn btn-success w-100 py-2 fw-bold detail-submit-btn"
+                      disabled={!equipment.availability}
+                    >
+                      {equipment.availability ? 'Send Booking Request →' : 'Currently Unavailable'}
+                    </button>
+                    {!equipment.availability && (
+                      <small className="text-danger d-block mt-2 text-center">
+                        This machinery is marked unavailable right now.
+                      </small>
+                    )}
+                  </form>
+                )}
+
+                {user && user.role !== 'farmer' && (
+                  <div className="alert alert-light border mt-3 text-muted small" style={{ borderRadius: 12 }}>
+                    ℹ️ You are signed in as a {user.role}. Sign in as a farmer to request equipment rentals.
+                  </div>
+                )}
+
+                {!user && (
+                  <div className="alert alert-light border mt-3 text-muted small" style={{ borderRadius: 12 }}>
+                    Please <Link to="/login" className="text-success fw-bold">Sign In</Link> as a farmer to book this equipment.
+                  </div>
+                )}
+
+                {notice && (
+                  <div
+                    className={notice.startsWith('Rental request sent') ? 'alert alert-success mt-3' : 'alert alert-danger mt-3'}
+                    style={{ borderRadius: 12 }}
+                  >
+                    {notice}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
 }

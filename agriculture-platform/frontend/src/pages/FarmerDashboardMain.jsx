@@ -493,22 +493,49 @@ export default function FarmerDashboardMain({ initialSection }) {
               <div className="farmer-equipment-grid">
                 {filteredEquipment.map((item) => (
                   <article className="farmer-equipment-card" key={item._id}>
-                    {item.image ? (
-                      <img
-                        src={`${api.defaults.baseURL.replace('/api', '')}${item.image}`}
-                        alt={item.equipmentName}
-                      />
-                    ) : (
-                      <div className="farmer-equipment-placeholder">No photo</div>
-                    )}
-                    <div>
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <small className="text-success fw-bold">{item.category}</small>
-                        <span className="badge-tn-location">📍 {item.location}</span>
+                    <div className="farmer-equipment-img-wrap">
+                      {item.image ? (
+                        <img
+                          src={`${api.defaults.baseURL.replace('/api', '')}${item.image}`}
+                          alt={item.equipmentName}
+                        />
+                      ) : (
+                        <div className="farmer-equipment-placeholder">
+                          <span style={{ fontSize: '32px' }}>🚜</span>
+                          <small>No photo available</small>
+                        </div>
+                      )}
+                      {item.category && (
+                        <span className="farmer-equipment-cat-pill">
+                          {item.category}
+                        </span>
+                      )}
+                      <span className={`farmer-equipment-badge ${item.availability === false ? 'rented' : 'avail'}`}>
+                        {item.availability === false ? 'Rented' : 'Available'}
+                      </span>
+                    </div>
+
+                    <div className="farmer-equipment-card-body">
+                      <div className="d-flex justify-content-between align-items-center mb-2">
+                        <span className="badge-tn-location">📍 {item.location || 'Tamil Nadu'}</span>
                       </div>
-                      <h3>{item.equipmentName}</h3>
-                      <b className="text-success">Rs. {item.rentalPrice}/hour</b>
-                      <Link className="btn btn-success btn-sm mt-3" to={`/equipment/${item._id}`}>
+
+                      <h3 className="farmer-equipment-title" title={item.equipmentName}>
+                        {item.equipmentName}
+                      </h3>
+
+                      {item.description && (
+                        <p className="farmer-equipment-desc" title={item.description}>
+                          {item.description}
+                        </p>
+                      )}
+
+                      <div className="farmer-equipment-price-row">
+                        <span className="farmer-equipment-price">₹{item.rentalPrice}</span>
+                        <span className="farmer-equipment-unit">/hour</span>
+                      </div>
+
+                      <Link className="farmer-equipment-book-btn" to={`/equipment/${item._id}`}>
                         View & book
                       </Link>
                     </div>
