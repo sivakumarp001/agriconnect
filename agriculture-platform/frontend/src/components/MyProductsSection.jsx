@@ -143,6 +143,7 @@ export default function MyProductsSection({
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedStockStatus, setSelectedStockStatus] = useState('All');
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' by default
 
   // Slide-over panel states
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -499,55 +500,98 @@ export default function MyProductsSection({
                 <option value="Out of Stock">Out of Stock</option>
               </select>
             </div>
+
+            <div className="view-mode-toggle-group">
+              <button
+                type="button"
+                className={`btn-view-toggle ${viewMode === 'grid' ? 'active' : ''}`}
+                onClick={() => setViewMode('grid')}
+                title="Grid View"
+                aria-label="Grid View"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                </svg>
+                <span>Grid</span>
+              </button>
+              <button
+                type="button"
+                className={`btn-view-toggle ${viewMode === 'list' ? 'active' : ''}`}
+                onClick={() => setViewMode('list')}
+                title="List View"
+                aria-label="List View"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                  <line x1="8" y1="6" x2="21" y2="6" />
+                  <line x1="8" y1="12" x2="21" y2="12" />
+                  <line x1="8" y1="18" x2="21" y2="18" />
+                  <line x1="3" y1="6" x2="3.01" y2="6" />
+                  <line x1="3" y1="12" x2="3.01" y2="12" />
+                  <line x1="3" y1="18" x2="3.01" y2="18" />
+                </svg>
+                <span>List</span>
+              </button>
+            </div>
           </div>
 
-          {/* Flipkart-Style Cards */}
-          <div className="marketplace-card-list">
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((item) => {
-                const qty = Number(item.quantity) || 0;
-                const isSold = item.isSold === true;
-                let status = 'Available';
-                let dotClass = 'status-pill-dot dot-available';
-                let statusTextClass = 'text-status-available';
+          {/* Product Cards: Responsive Grid or List */}
+          {filteredProducts.length > 0 ? (
+            viewMode === 'grid' ? (
+              <div className="marketplace-card-grid">
+                {filteredProducts.map((item) => {
+                  const qty = Number(item.quantity) || 0;
+                  const isSold = item.isSold === true;
+                  let status = 'Available';
+                  let dotClass = 'status-pill-dot dot-available';
+                  let statusTextClass = 'text-status-available';
 
-                if (isSold || qty === 0) {
-                  status = 'Out of Stock';
-                  dotClass = 'status-pill-dot dot-out-of-stock';
-                  statusTextClass = 'text-status-out-of-stock';
-                } else if (qty <= 5) {
-                  status = 'Low Stock';
-                  dotClass = 'status-pill-dot dot-low-stock';
-                  statusTextClass = 'text-status-low-stock';
-                }
+                  if (isSold || qty === 0) {
+                    status = 'Out of Stock';
+                    dotClass = 'status-pill-dot dot-out-of-stock';
+                    statusTextClass = 'text-status-out-of-stock';
+                  } else if (qty <= 5) {
+                    status = 'Low Stock';
+                    dotClass = 'status-pill-dot dot-low-stock';
+                    statusTextClass = 'text-status-low-stock';
+                  }
 
-                const displayLocation = item.location || user?.location || 'Tamil Nadu';
-                const displayPhone = item.sellerPhone || item.farmer?.phone || user?.phone || '6380532229';
-                const unit = getProductUnit(item);
+                  const displayLocation = item.location || user?.location || 'Tamil Nadu';
+                  const displayPhone = item.sellerPhone || item.farmer?.phone || user?.phone || '6380532229';
+                  const unit = getProductUnit(item);
 
-                return (
-                  <div key={item._id} className="flipkart-product-card">
-                    {/* Left Thumbnail (140x120) */}
-                    <div className="flipkart-card-thumb-wrap">
-                      {item.image ? (
-                        <img
-                          src={imageUrl(item.image)}
-                          alt={item.productName}
-                          className="flipkart-card-thumb-img"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                          }}
-                        />
-                      ) : (
-                        <CategoryFallbackIcon category={item.category} />
-                      )}
-                    </div>
+                  return (
+                    <div key={item._id} className="product-grid-card">
+                      <div className="grid-card-thumb-wrap">
+                        {item.image ? (
+                          <img
+                            src={imageUrl(item.image)}
+                            alt={item.productName}
+                            className="grid-card-thumb-img"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <CategoryFallbackIcon category={item.category} />
+                        )}
+                        <span className="grid-card-cat-badge">
+                          <LeafIcon size={11} />
+                          <span>{item.category || 'Vegetables'}</span>
+                        </span>
+                        <span className={`grid-card-status-badge ${statusTextClass}`}>
+                          <span className={dotClass} />
+                          <span>{status}</span>
+                        </span>
+                      </div>
 
-                    {/* Right Details Body */}
-                    <div className="flipkart-card-body">
-                      <div>
-                        <div className="card-title-line">
-                          <h3 className="flipkart-card-title">{item.productName}</h3>
+                      <div className="grid-card-body">
+                        <div className="grid-card-title-line">
+                          <h3 className="grid-card-title" title={item.productName}>
+                            {item.productName}
+                          </h3>
                           <button
                             type="button"
                             className="card-more-menu-btn"
@@ -558,73 +602,181 @@ export default function MyProductsSection({
                           </button>
                         </div>
 
-                        <div className={getCategoryPillClass(item.category)}>
-                          <LeafIcon size={12} />
-                          <span>{item.category || 'Fruits'}</span>
+                        <div className="grid-card-price-line">
+                          <span className="grid-price-amount">
+                            ₹ {Number(item.price).toLocaleString('en-IN')}
+                          </span>
+                          <span className="grid-price-unit">/ {unit}</span>
                         </div>
 
-                        <div className="flipkart-price-line">
-                          ₹ {Number(item.price).toLocaleString('en-IN')}{' '}
-                          <span className="flipkart-price-unit">/ {unit}</span>
-                        </div>
-
-                        <div className="flipkart-meta-row">
-                          <span className="meta-item">
+                        <div className="grid-card-meta-box">
+                          <div className="grid-meta-row">
                             <BoxIcon size={13} className="meta-icon" />
-                            <span>Stock: {item.quantity}</span>
-                          </span>
-
-                          <span className="meta-item">
-                            <span className={dotClass} />
-                            <span className={statusTextClass}>{status}</span>
-                          </span>
-
-                          <span className="meta-item">
+                            <span>Stock: <b>{item.quantity}</b></span>
+                          </div>
+                          <div className="grid-meta-row">
                             <MapPinIcon size={13} className="meta-icon" />
-                            <span>{displayLocation}</span>
-                          </span>
-
-                          <span className="meta-item">
+                            <span className="text-truncate">{displayLocation}</span>
+                          </div>
+                          <div className="grid-meta-row">
                             <PhoneIcon size={13} className="meta-icon" />
                             <span>{displayPhone}</span>
-                          </span>
+                          </div>
+                        </div>
+
+                        <div className="grid-card-actions">
+                          <button
+                            type="button"
+                            className="btn-fk-action btn-fk-view"
+                            onClick={() => setViewProduct(item)}
+                          >
+                            <EyeIcon size={13} />
+                            <span>View</span>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-fk-action btn-fk-edit"
+                            onClick={() => handleOpenEdit(item)}
+                          >
+                            <EditIcon size={13} />
+                            <span>Edit</span>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-fk-action btn-fk-delete"
+                            onClick={() => handleDeleteProduct(item._id, item.productName)}
+                          >
+                            <TrashIcon size={13} />
+                            <span>Delete</span>
+                          </button>
                         </div>
                       </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="marketplace-card-list">
+                {filteredProducts.map((item) => {
+                  const qty = Number(item.quantity) || 0;
+                  const isSold = item.isSold === true;
+                  let status = 'Available';
+                  let dotClass = 'status-pill-dot dot-available';
+                  let statusTextClass = 'text-status-available';
 
-                      {/* Action Buttons Row */}
-                      <div className="flipkart-action-row">
-                        <button
-                          type="button"
-                          className="btn-fk-action btn-fk-view"
-                          onClick={() => setViewProduct(item)}
-                        >
-                          <EyeIcon size={13} />
-                          <span>View</span>
-                        </button>
+                  if (isSold || qty === 0) {
+                    status = 'Out of Stock';
+                    dotClass = 'status-pill-dot dot-out-of-stock';
+                    statusTextClass = 'text-status-out-of-stock';
+                  } else if (qty <= 5) {
+                    status = 'Low Stock';
+                    dotClass = 'status-pill-dot dot-low-stock';
+                    statusTextClass = 'text-status-low-stock';
+                  }
 
-                        <button
-                          type="button"
-                          className="btn-fk-action btn-fk-edit"
-                          onClick={() => handleOpenEdit(item)}
-                        >
-                          <EditIcon size={13} />
-                          <span>Edit</span>
-                        </button>
+                  const displayLocation = item.location || user?.location || 'Tamil Nadu';
+                  const displayPhone = item.sellerPhone || item.farmer?.phone || user?.phone || '6380532229';
+                  const unit = getProductUnit(item);
 
-                        <button
-                          type="button"
-                          className="btn-fk-action btn-fk-delete"
-                          onClick={() => handleDeleteProduct(item._id, item.productName)}
-                        >
-                          <TrashIcon size={13} />
-                          <span>Delete</span>
-                        </button>
+                  return (
+                    <div key={item._id} className="flipkart-product-card">
+                      <div className="flipkart-card-thumb-wrap">
+                        {item.image ? (
+                          <img
+                            src={imageUrl(item.image)}
+                            alt={item.productName}
+                            className="flipkart-card-thumb-img"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <CategoryFallbackIcon category={item.category} />
+                        )}
+                      </div>
+
+                      <div className="flipkart-card-body">
+                        <div>
+                          <div className="card-title-line">
+                            <h3 className="flipkart-card-title">{item.productName}</h3>
+                            <button
+                              type="button"
+                              className="card-more-menu-btn"
+                              onClick={() => handleOpenEdit(item)}
+                              title="Edit product"
+                            >
+                              <MoreVerticalIcon size={16} />
+                            </button>
+                          </div>
+
+                          <div className={getCategoryPillClass(item.category)}>
+                            <LeafIcon size={12} />
+                            <span>{item.category || 'Fruits'}</span>
+                          </div>
+
+                          <div className="flipkart-price-line">
+                            ₹ {Number(item.price).toLocaleString('en-IN')}{' '}
+                            <span className="flipkart-price-unit">/ {unit}</span>
+                          </div>
+
+                          <div className="flipkart-meta-row">
+                            <span className="meta-item">
+                              <BoxIcon size={13} className="meta-icon" />
+                              <span>Stock: {item.quantity}</span>
+                            </span>
+
+                            <span className="meta-item">
+                              <span className={dotClass} />
+                              <span className={statusTextClass}>{status}</span>
+                            </span>
+
+                            <span className="meta-item">
+                              <MapPinIcon size={13} className="meta-icon" />
+                              <span>{displayLocation}</span>
+                            </span>
+
+                            <span className="meta-item">
+                              <PhoneIcon size={13} className="meta-icon" />
+                              <span>{displayPhone}</span>
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flipkart-action-row">
+                          <button
+                            type="button"
+                            className="btn-fk-action btn-fk-view"
+                            onClick={() => setViewProduct(item)}
+                          >
+                            <EyeIcon size={13} />
+                            <span>View</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            className="btn-fk-action btn-fk-edit"
+                            onClick={() => handleOpenEdit(item)}
+                          >
+                            <EditIcon size={13} />
+                            <span>Edit</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            className="btn-fk-action btn-fk-delete"
+                            onClick={() => handleDeleteProduct(item._id, item.productName)}
+                          >
+                            <TrashIcon size={13} />
+                            <span>Delete</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })
-            ) : (
+                  );
+                })}
+              </div>
+            )
+          ) : (
               <div className="marketplace-empty-box">
                 <div className="empty-icon-wrap">
                   <LeafIcon size={26} />
@@ -663,7 +815,6 @@ export default function MyProductsSection({
               </div>
             )}
           </div>
-        </div>
 
         {/* Right Column: Quick Actions & Promo Banner */}
         <div className="marketplace-sidebar-column">

@@ -265,32 +265,61 @@ body:has(.agri-farmer-app) footer {
 /* Base Wrapper */
 .agri-farmer-app {
   font-family: var(--font-family);
-  background-color: transparent;
+  background-color: var(--page-bg);
   min-height: 100vh;
   color: var(--main-text);
   display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Scrim Backdrop overlay when sidebar drawer is popped open */
+.farmer-sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 25, 18, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 998;
+  animation: fadeInScrim 0.22s ease forwards;
 }
 
 /* ========================================================
-   1. LEFT SIDEBAR (#14532D, 230px)
+   1. POP-OUT SIDEBAR DRAWER (Only pops when hamburger is clicked)
    ======================================================== */
 .farmer-sidebar-v2 {
-  width: 230px;
-  flex-shrink: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 275px;
+  max-width: 85vw;
   background-color: var(--sidebar-bg);
   color: #FFFFFF;
   display: flex;
   flex-direction: column;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.06);
-  z-index: 100;
-  animation: sidebarSlideIn 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  z-index: 999;
+  box-shadow: 10px 0 40px rgba(0, 0, 0, 0.4);
+  transform: translateX(-105%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.farmer-sidebar-v2.open {
+  transform: translateX(0);
 }
 
 /* Sidebar Brand Header */
 .sidebar-brand-top {
-  padding: 22px 20px 16px;
+  padding: 18px 20px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-brand-title-wrap {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -309,6 +338,29 @@ body:has(.agri-farmer-app) footer {
   font-weight: 700;
   color: rgba(255, 255, 255, 0.94);
   letter-spacing: -0.3px;
+}
+
+.sidebar-close-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.sidebar-close-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #FCA5A5;
+  transform: rotate(90deg);
 }
 
 /* Sidebar Farmer Greeting */
@@ -460,7 +512,8 @@ body:has(.agri-farmer-app) footer {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  height: 100vh;
+  width: 100%;
+  height: calc(100vh - 64px);
   overflow: hidden;
 }
 
@@ -469,15 +522,119 @@ body:has(.agri-farmer-app) footer {
   background: var(--topbar-bg);
   border-bottom: 1px solid var(--topbar-border);
   height: 64px;
-  padding: 0 32px;
+  padding: 0 24px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   flex-shrink: 0;
   z-index: 50;
+  width: 100%;
   color: var(--topbar-text);
   transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
   animation: topbarSlideDown 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Left controls: Hamburger + Brand + Breadcrumb pill */
+.topbar-left-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-hamburger-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.topbar-hamburger-btn:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.04);
+}
+
+.topbar-hamburger-btn:active {
+  transform: scale(0.96);
+}
+
+.topbar-hamburger-btn .hamburger-bar {
+  width: 18px;
+  height: 2px;
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  transition: all 0.25s ease;
+}
+
+.topbar-hamburger-btn.active .hamburger-bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.topbar-hamburger-btn.active .hamburger-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.topbar-hamburger-btn.active .hamburger-bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.topbar-brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+}
+
+.topbar-brand-leaf {
+  color: #6EE7B7;
+  display: flex;
+  align-items: center;
+  animation: leafSway 4s ease-in-out infinite;
+}
+
+.topbar-brand-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+}
+
+.topbar-current-tab-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.topbar-current-tab-pill .tab-pill-dot {
+  color: #4ADE80;
+  font-size: 8px;
+  line-height: 1;
+}
+
+@media (max-width: 640px) {
+  .topbar-current-tab-pill {
+    display: none;
+  }
 }
 
 .topbar-global-search {
@@ -779,7 +936,8 @@ body:has(.agri-farmer-app) footer {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
-  max-width: 1200px;
+  width: 100%;
+  max-width: 100%;
   animation: contentFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 
@@ -1063,6 +1221,220 @@ body:has(.agri-farmer-app) footer {
   background: #FFFFFF;
   border-color: var(--primary-btn);
   box-shadow: 0 0 0 3px rgba(22, 128, 60, 0.12);
+}
+
+/* View Mode Toggle Group (Grid vs List) */
+.view-mode-toggle-group {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 3px;
+  margin-left: auto;
+}
+
+.btn-view-toggle {
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--secondary-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-view-toggle:hover {
+  color: var(--main-text);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.btn-view-toggle.active {
+  background: var(--primary-btn);
+  color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(22, 128, 60, 0.25);
+}
+
+/* ========================================================
+   GRID VIEW FOR PRODUCTS / VEGETABLES
+   ======================================================== */
+.marketplace-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.product-grid-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 16px rgba(18, 55, 34, 0.06);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  animation: cardFadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.product-grid-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(22, 128, 60, 0.35);
+  box-shadow: 0 10px 28px rgba(18, 55, 34, 0.12);
+}
+
+.grid-card-thumb-wrap {
+  width: 100%;
+  height: 170px;
+  background: #EDF5EE;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-card-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.product-grid-card:hover .grid-card-thumb-img {
+  transform: scale(1.05);
+}
+
+.grid-card-cat-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary-btn);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.grid-card-status-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.grid-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.grid-card-title-line {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.grid-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--main-text);
+  margin: 0;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grid-card-price-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.grid-price-amount {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary-btn);
+}
+
+.grid-price-unit {
+  font-size: 12px;
+  color: var(--secondary-text);
+  font-weight: 500;
+}
+
+.grid-card-meta-box {
+  background: #F8FAF8;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.grid-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--secondary-text);
+}
+
+.grid-meta-row b {
+  color: var(--main-text);
+}
+
+.grid-card-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.btn-grid-action {
+  border: none;
+  border-radius: 6px;
+  padding: 7px 0;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.2s ease;
 }
 
 /* Flipkart-Style Horizontal Product Cards with Glow & Micro-Interactions */
@@ -2002,61 +2374,8 @@ body:has(.agri-farmer-app) footer {
 }
 
 @media (max-width: 900px) {
-  .agri-farmer-app {
-    flex-direction: column;
-  }
-
-  .farmer-sidebar-v2 {
-    width: 100%;
-    overflow-x: auto;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 14px;
-    height: auto;
-  }
-
-  .sidebar-brand-top,
-  .sidebar-user-header {
-    border-bottom: none;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 10px 14px;
-  }
-
-  .sidebar-greeting-sub {
-    display: none;
-  }
-
-  .sidebar-nav-list {
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 6px 10px;
-    flex: 1;
-  }
-
-  .sidebar-nav-btn {
-    white-space: nowrap;
-    padding: 8px 12px;
-  }
-
-  .sidebar-hills-art {
-    display: none;
-  }
-
-  .sidebar-bottom-wrap {
-    margin-top: 0;
-    margin-left: auto;
-  }
-
-  .sidebar-logout-btn {
-    border-top: none;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    white-space: nowrap;
-    padding: 10px 14px;
-  }
-
   .farmer-right-viewport {
-    height: auto;
-    min-height: calc(100vh - 60px);
+    height: calc(100vh - 64px);
   }
 
   .marketplace-stat-cards {
@@ -2131,8 +2450,176 @@ body:has(.agri-farmer-app) footer {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   margin-bottom: 24px;
-  max-width: 1200px;
+  width: 100%;
+  max-width: 100%;
   animation: cardFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.full-width-panel {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* ========================================================
+   Rental Requests Grid View
+   ======================================================== */
+.rentals-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.rental-grid-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-card, 14px);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--card-shadow, 0 4px 14px rgba(20, 83, 45, 0.04));
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.rental-grid-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(18, 55, 34, 0.1);
+  border-color: rgba(22, 128, 60, 0.3);
+}
+
+.rental-grid-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rental-equipment-visual {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #edf7f0;
+  border: 1px solid #d1ead7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.rental-equipment-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rental-status-badge {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill, 9999px);
+  white-space: nowrap;
+}
+
+.badge-rental-pending {
+  background: #FEF3C7;
+  color: #B45309;
+  border: 1px solid #FCD34D;
+}
+
+.badge-rental-approved {
+  background: #DCFCE7;
+  color: #15803D;
+  border: 1px solid #86EFAC;
+}
+
+.badge-rental-completed {
+  background: #E0E7FF;
+  color: #4338CA;
+  border: 1px solid #A5B4FC;
+}
+
+.badge-rental-cancelled {
+  background: #FEE2E2;
+  color: #B91C1C;
+  border: 1px solid #FCA5A5;
+}
+
+.rental-grid-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.rental-grid-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--main-text, #173b2a);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.rental-grid-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rental-spec-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #F8FAFC;
+  border: 1px solid var(--border-color, #E2E8F0);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 12px;
+  color: var(--main-text, #173b2a);
+}
+
+.rental-owner-box {
+  background: #F9FBFA;
+  border: 1px solid #E5EBE6;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rental-owner-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--secondary-text, #6b7c72);
+}
+
+.rental-owner-name {
+  font-weight: 600;
+  color: var(--main-text, #173b2a);
+}
+
+.rental-owner-contact,
+.rental-owner-location {
+  color: var(--secondary-text, #6b7c72);
+}
+
+.rental-grid-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-color, #e2e8f0);
+  padding-top: 8px;
+  margin-top: auto;
+  font-size: 11px;
 }
 
 .farm-panel h2 {

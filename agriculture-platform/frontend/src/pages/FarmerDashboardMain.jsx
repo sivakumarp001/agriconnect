@@ -64,6 +64,15 @@ export default function FarmerDashboardMain({ initialSection }) {
     return saved === 'midnight' ? 'midnight' : 'forest';
   });
   const [showThemePicker, setShowThemePicker] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setSidebarOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const changeTheme = (themeId) => {
     setActiveTheme(themeId);
@@ -207,73 +216,47 @@ export default function FarmerDashboardMain({ initialSection }) {
 
   return (
     <div className={`agri-farmer-app theme-${activeTheme}`}>
-      {/* 1. Left Sidebar (#14532D, 230px) */}
-      <aside className="farmer-sidebar-v2">
-        <div
-          className="sidebar-brand-top"
-          onClick={() => setSection('products')}
-          role="button"
-          tabIndex={0}
-        >
-          <span className="sidebar-brand-icon">
-            <LeafIcon size={22} />
-          </span>
-          <span className="sidebar-brand-title">
-            <span className="auth-logo-yellow">Agri</span><span className="auth-logo-white">Connect</span>
-          </span>
-        </div>
-
-        <div className="sidebar-user-header">
-          <div className="sidebar-avatar-circle">
-            <LeafIcon size={18} />
-          </div>
-          <div className="sidebar-greeting-text">
-            <p className="sidebar-greeting-sub">FARMER DASHBOARD</p>
-            <p className="sidebar-farmer-name">Hello, {user?.name || 'Farmer'}</p>
-          </div>
-        </div>
-
-        <nav className="sidebar-nav-list">
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            const isActive = section === item.key;
-            return (
-              <button
-                key={item.key}
-                type="button"
-                className={`sidebar-nav-btn ${isActive ? 'active' : ''}`}
-                onClick={() => setSection(item.key)}
-              >
-                <span className="sidebar-nav-icon">
-                  <Icon size={17} />
-                </span>
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
-        </nav>
-
-        <div className="sidebar-bottom-wrap">
-          <SidebarHillsIllustration />
+      {/* 1. Global Modern Full-width Topbar */}
+      <header className="farmer-topbar-clean">
+        <div className="topbar-left-controls">
           <button
             type="button"
-            className="sidebar-logout-btn"
-            onClick={() => {
-              logout();
-              navigate('/');
-            }}
+            className={`topbar-hamburger-btn ${sidebarOpen ? 'active' : ''}`}
+            onClick={() => setSidebarOpen((prev) => !prev)}
+            aria-label="Toggle Navigation Menu"
+            title={sidebarOpen ? 'Close Menu' : 'Open Menu'}
           >
-            <LogoutIcon size={15} />
-            <span>Log out</span>
+            <span className="hamburger-bar" />
+            <span className="hamburger-bar" />
+            <span className="hamburger-bar" />
           </button>
-        </div>
-      </aside>
 
-      {/* 2. Main Right Viewport (Clean Topbar + Scrollable Content) */}
-      <div className="farmer-right-viewport">
-        {/* Top Bar: Clean Modern Marketplace Topbar */}
-        <header className="farmer-topbar-clean">
-          <div className="topbar-right-controls">
+          <div
+            className="topbar-brand-link"
+            onClick={() => {
+              setSection('products');
+              setSidebarOpen(false);
+            }}
+            role="button"
+            tabIndex={0}
+          >
+            <span className="topbar-brand-leaf">
+              <LeafIcon size={22} />
+            </span>
+            <span className="topbar-brand-title">
+              <span className="auth-logo-yellow">Agri</span><span className="auth-logo-white">Connect</span>
+            </span>
+          </div>
+
+          <div className="topbar-current-tab-pill">
+            <span className="tab-pill-dot">●</span>
+            <span className="tab-pill-text">
+              {NAV_ITEMS.find((n) => n.key === section)?.label || 'Farmer Dashboard'}
+            </span>
+          </div>
+        </div>
+
+        <div className="topbar-right-controls">
             {/* Live Theme Switcher */}
             <div className="theme-switcher-wrapper">
               <button
@@ -357,6 +340,96 @@ export default function FarmerDashboardMain({ initialSection }) {
           </div>
         </header>
 
+      {/* 2. Backdrop Scrim Overlay when Sidebar is popped open */}
+      {sidebarOpen && (
+        <div
+          className="farmer-sidebar-backdrop"
+          onClick={() => setSidebarOpen(false)}
+          aria-label="Close menu"
+        />
+      )}
+
+      {/* 3. Pop-out Sidebar Drawer - only pops when clicked */}
+      <aside className={`farmer-sidebar-v2 ${sidebarOpen ? 'open' : ''}`} aria-hidden={!sidebarOpen}>
+        <div className="sidebar-brand-top">
+          <div
+            className="sidebar-brand-title-wrap"
+            onClick={() => {
+              setSection('products');
+              setSidebarOpen(false);
+            }}
+            role="button"
+            tabIndex={0}
+          >
+            <span className="sidebar-brand-icon">
+              <LeafIcon size={22} />
+            </span>
+            <span className="sidebar-brand-title">
+              <span className="auth-logo-yellow">Agri</span><span className="auth-logo-white">Connect</span>
+            </span>
+          </div>
+          <button
+            type="button"
+            className="sidebar-close-btn"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close Menu"
+            title="Close Menu"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="sidebar-user-header">
+          <div className="sidebar-avatar-circle">
+            <LeafIcon size={18} />
+          </div>
+          <div className="sidebar-greeting-text">
+            <p className="sidebar-greeting-sub">FARMER DASHBOARD</p>
+            <p className="sidebar-farmer-name">Hello, {user?.name || 'Farmer'}</p>
+          </div>
+        </div>
+
+        <nav className="sidebar-nav-list">
+          {NAV_ITEMS.map((item) => {
+            const Icon = item.icon;
+            const isActive = section === item.key;
+            return (
+              <button
+                key={item.key}
+                type="button"
+                className={`sidebar-nav-btn ${isActive ? 'active' : ''}`}
+                onClick={() => {
+                  setSection(item.key);
+                  setSidebarOpen(false);
+                }}
+              >
+                <span className="sidebar-nav-icon">
+                  <Icon size={17} />
+                </span>
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className="sidebar-bottom-wrap">
+          <SidebarHillsIllustration />
+          <button
+            type="button"
+            className="sidebar-logout-btn"
+            onClick={() => {
+              logout();
+              navigate('/');
+            }}
+          >
+            <LogoutIcon size={15} />
+            <span>Log out</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* 4. Full Viewport Main Content */}
+      <div className="farmer-right-viewport">
         {/* Scrollable Content Area */}
         <main className="farmer-scroll-content">
           {notice && (
@@ -577,21 +650,118 @@ export default function FarmerDashboardMain({ initialSection }) {
         )}
 
         {section === 'rentals' && (
-          <div className="farm-panel">
-            <h2>My rental requests</h2>
+          <div className="farm-panel full-width-panel">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h2 className="mb-1">My Rental Requests</h2>
+                <small className="text-muted">Track your hired machinery, approval status, and owner contacts</small>
+              </div>
+              <button
+                type="button"
+                className="btn btn-sm btn-success px-3"
+                onClick={() => setSection('equipment')}
+              >
+                + Rent Machinery
+              </button>
+            </div>
+
             {rentals.length ? (
-              rentals.map((item) => (
-                <div className="order-row" key={item._id}>
-                  <div>
-                    <b>{item.equipment?.equipmentName}</b>
-                    <small>Farm area: {item.acres} acres</small>
-                    <small>Owner: {item.rentalOwner?.name} · {item.rentalOwner?.phone || 'Phone not provided'}</small>
-                  </div>
-                  <span className="status-pill">{item.requestStatus}</span>
-                </div>
-              ))
+              <div className="rentals-card-grid">
+                {rentals.map((item) => {
+                  const status = (item.requestStatus || 'pending').toLowerCase();
+                  let badgeClass = 'badge-rental-pending';
+                  let statusLabel = 'Pending';
+                  if (status === 'approved' || status === 'confirmed') {
+                    badgeClass = 'badge-rental-approved';
+                    statusLabel = 'Approved';
+                  } else if (status === 'completed') {
+                    badgeClass = 'badge-rental-completed';
+                    statusLabel = 'Completed';
+                  } else if (status === 'cancelled' || status === 'rejected') {
+                    badgeClass = 'badge-rental-cancelled';
+                    statusLabel = 'Cancelled';
+                  }
+
+                  const equipImage = item.equipment?.image
+                    ? `${api.defaults.baseURL.replace('/api', '')}${item.equipment.image}`
+                    : null;
+
+                  return (
+                    <article className="rental-grid-card" key={item._id}>
+                      <div className="rental-grid-card-head">
+                        <div className="rental-equipment-visual">
+                          {equipImage ? (
+                            <img src={equipImage} alt={item.equipment?.equipmentName || 'Equipment'} />
+                          ) : (
+                            <span style={{ fontSize: 28 }}>🚜</span>
+                          )}
+                        </div>
+                        <span className={`rental-status-badge ${badgeClass}`}>
+                          {statusLabel}
+                        </span>
+                      </div>
+
+                      <div className="rental-grid-card-body">
+                        <h3 className="rental-grid-title">
+                          {item.equipment?.equipmentName || 'Agricultural Machinery'}
+                        </h3>
+
+                        <div className="rental-grid-specs">
+                          <div className="rental-spec-pill">
+                            🌾 <span><b>{item.acres || 1}</b> Acres farm area</span>
+                          </div>
+                          {item.equipment?.rentalPrice && (
+                            <div className="rental-spec-pill">
+                              💰 <span><b>₹{item.equipment.rentalPrice}</b> / hr</span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="rental-owner-box">
+                          <div className="rental-owner-label">Owner Information</div>
+                          <div className="rental-owner-name">
+                            👤 {item.rentalOwner?.name || 'Equipment Owner'}
+                          </div>
+                          <div className="rental-owner-contact">
+                            📞 {item.rentalOwner?.phone || item.rentalOwner?.email || 'Contact on approval'}
+                          </div>
+                          {item.equipment?.location && (
+                            <div className="rental-owner-location">
+                              📍 {item.equipment.location}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="rental-grid-footer">
+                          <small className="text-muted">
+                            Request #{item._id.slice(-6).toUpperCase()}
+                          </small>
+                          {item.createdAt && (
+                            <small className="text-muted">
+                              {new Date(item.createdAt).toLocaleDateString()}
+                            </small>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
             ) : (
-              <p className="text-muted">No rental requests yet.</p>
+              <div className="dashboard-empty-state">
+                <div style={{ fontSize: '2.2rem', marginBottom: '8px' }}>🚜</div>
+                <h4 className="fw-bold mb-1">No rental requests yet</h4>
+                <p className="text-muted mb-3" style={{ fontSize: '14px' }}>
+                  Looking to rent a tractor, power tiller, or harvester?
+                </p>
+                <button
+                  type="button"
+                  className="btn btn-success px-4"
+                  onClick={() => setSection('equipment')}
+                >
+                  Browse Equipment Catalog
+                </button>
+              </div>
             )}
           </div>
         )}
